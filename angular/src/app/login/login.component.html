@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>LogIn Form</title>
+</head>
+<body>
+<div class="loginbox" *ngIf="!auth.getUser()">
+  <img src="assets/images/avatar.png" class="avatar">
+<h1>Login Here</h1>
+<form [formGroup]="formGroup">
+  <p>User name</p>
+  <input type="text" name="name" placeholder="Enter Username" formControlName="name">
+    <p>Password</p>
+    <input type="password" name="password" placeholder="Enter Password" formControlName="password">
+    <input type="submit" name="" value="LogIn" (click)="login()">
+    <div class="alert alert-danger" role="alert" *ngIf="message && formGroup.valid">
+      {{message}}
+    </div>
+</form>
+</div>
+<div class="welcome alert alert-success" *ngIf="auth.getUser()">
+  Welcome {{auth.getUser()}}
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<form [formGroup]="formGroup" class="form">
+    <div class="form-group">
+        <label for="firstName">Id: </label>
+        <input type="number" class="form-control" id="id" formControlName="id">
+      </div>
+  <div class="form-group">
+    <label for="firstName">First Name: </label>
+    <input type="text" class="form-control" id="firstName" formControlName="firstName">
+  </div>
+  <div class="form-group">
+    <label for="lastName">Last Name: </label>
+    <input type="text" class="form-control" id="lastName" formControlName="lastName">
+  </div>
+  <div class="form-group">
+    <label for="age">Age: </label>
+    <input type="number" class="form-control" id="age" formControlName="age">
+  </div>
+  <div class="buttons">
+  <button type="submit" class="btn btn-success add" (click)="create()">Add</button>
+  <button type="submit" class="btn btn-danger add" (click)="goToUsers()">Back</button>
+</div>
+<div class="alert alert-danger" *ngIf="alert">
+    {{alert}}!
+  </div>
+</form>
