@@ -1,24 +1,16 @@
 package com.example.Spring;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-
 public class UserController {
 
     @Autowired
     private UserService service;
     
-    @GetMapping("/")
-    public String welcome() {
-    	return "welcome";
-    }
-
     @GetMapping("/users")
     public List<User> findAll() {
         return service.findAll();
@@ -30,12 +22,7 @@ public class UserController {
     } 
 
     @PostMapping("/users")
-    public List<User> save(@RequestBody Map<String, String> body) {
-        int id = Integer.parseInt(body.get("id"));
-        String firstName = body.get("firstName");
-        String lastName = body.get("lastName");
-        int age = Integer.parseInt(body.get("age"));
-        User user = new User(id, firstName, lastName, age);
+    public List<User> save(@RequestBody User user) {
         return service.save(user);
     }
 

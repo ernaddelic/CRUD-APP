@@ -17,7 +17,7 @@ export class AddUserComponent implements OnInit {
     private service: UserService,
     private router: Router) {
     this.formGroup = fb.group({
-      'id': ['', Validators.required],
+      'id': [0],
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required],
       'age': ['', Validators.required],  
