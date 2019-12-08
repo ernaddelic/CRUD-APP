@@ -1,13 +1,6 @@
-<ul class="nav justify-content-end">
-  <li class="nav-item">
-    <a class="nav-link" href="#" [routerLink]="['/login']">Login</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#" (click)="seeUsers()">Users</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#" (click)="logOut()">Logout</a>
-  </li>
-  </ul>
-
+<nav class="navbar navbar-dark bg-dark justify-content-end">
+    <a class="navbar-brand" href="#" [routerLink]="['/login']">Login</a>
+    <a class="navbar-brand" href="#" (click)="seeUsers()">Users</a>
+    <a class="navbar-brand" href="#" (click)="logOut()">Logout</a>
+</nav>
 <router-outlet></router-outlet>
