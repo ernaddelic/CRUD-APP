@@ -1,29 +1,43 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { User } from './user';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private api_url: string = 'http://localhost:8080/user-portal/login';
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
-  login = (user: string, password: string): boolean => {
-    if (user == "user" && password == "password") {
-      localStorage.setItem("user", user);
-      return true;
-    }
-    return false;
+  
+
+  login = (user: string, password: string): Observable<string> => {
+    return this.http.get(this.api_url, {
+      responseType: 'text',
+      headers: {
+        Authorization: 'Basic ' + btoa(`${user}:${password}`)
+      }
+    }).pipe(
+      map((data: string) => {
+        sessionStorage.setItem('user', user);
+        let auth = 'Basic ' + btoa(`${user}:${password}`);
+        sessionStorage.setItem('auth', auth);
+        return data;
+      })
+    )
   }
 
   getUser = (): string => {
-    return localStorage.getItem('user');
+    return sessionStorage.getItem('user');
   }
 
   logOut = (): void => {
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
   }
 
   isLogged = (): boolean => {
-    return localStorage.getItem("user") !== null;
+    return sessionStorage.getItem("user") !== null;
   }
 }
