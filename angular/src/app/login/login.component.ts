@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { User } from '../user';
 
 @Component({
   selector: 'app-login',
@@ -29,13 +30,18 @@ export class LoginComponent implements OnInit {
   }
 
   login = (): void => {
-    if (this.auth.login(this.name.value, this.password.value)) {
-      this.router.navigate(['/user-list']);
-    } else {
-      this.message = 'Invalid Credentials!';
-      setTimeout(() => {
-        this.message = '';
-      },1000)
-    }
-  }
+    this.auth.login(this.name.value, this.password.value)
+    .subscribe(
+      (data: string) => {
+        console.log(data);
+        this.router.navigate(['/user-list']);
+      },
+      (err: Error) => {
+        console.log(err);
+        this.message = 'Invalid Credentials';
+        setTimeout(() => {
+          this.message = '';
+        },1000)
+      })
+  }   
 }
