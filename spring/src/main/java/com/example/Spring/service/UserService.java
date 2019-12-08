@@ -1,9 +1,11 @@
-package com.example.Spring;
+package com.example.Spring.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.Spring.model.User;
+import com.example.Spring.repository.UserRepository;
+import com.example.Spring.interf.UserInterface;
 
 @Service
 public class UserService implements UserInterface {
