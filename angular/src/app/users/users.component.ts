@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UsersComponent implements OnInit {
   users: User[];
+  message: string;
 
   updateUsers = (users: User[]): void => {
     this.users = users;
@@ -26,15 +27,37 @@ export class UsersComponent implements OnInit {
     )
   }
 
-  goToAdd = (): void => {
-    this.router.navigate(['/add-user']);
+  goToAdd = (user: User): void => {
+    this.service.createUser(user).subscribe(
+      (users: User[]) => {
+        this.router.navigate(['/add-user']);
+      },
+      (err) => {
+        this.message = 'Only admin can perform this action!';
+        setTimeout(() => {
+          this.message = '';
+        },1000)
+      }
+    )
+    
   }
 
   goToEdit = (user: User): void => {
     localStorage.removeItem('userID');
     localStorage.setItem('userID', user.id.toString());
+    this.service.editUser(user).subscribe(
+      (user: User[]) => {
+        this.router.navigate(['/edit-user']);
+      },
+      (err) => {
+        this.message = 'Only admin can perform this action!';
+        setTimeout(() => {
+          this.message = '';
+        },1000)
+      }
+    )
     
-    this.router.navigate(['/edit-user']);
+    
   }
 
   delete = (user: User): void => {
@@ -42,6 +65,12 @@ export class UsersComponent implements OnInit {
     .subscribe((users: User[]) => {
       console.log(users);
       this.users = users;
+    },
+    (err) => {
+      this.message = 'Only admin can perform this action!';
+      setTimeout(() => {
+        this.message = '';
+      },1000)
     })
   }
 }

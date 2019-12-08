@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { User } from '../user';
 export class EditUserComponent implements OnInit {
   formGroup: FormGroup;
   index: number = parseInt(localStorage.getItem('userID'));
+  @Input() user: User;
 
   constructor(fb: FormBuilder,
     private service: UserService,
@@ -37,7 +38,6 @@ export class EditUserComponent implements OnInit {
   goToUsers = (): void => {
     this.router.navigate(['user-list']);
   }
-
 
   ngOnInit(): void {
     this.service.getUserById(this.index).subscribe(
