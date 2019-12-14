@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { User } from '../user';
+import { JwtResponse } from '../jwt-response';
 
 @Component({
   selector: 'app-login',
@@ -32,8 +33,8 @@ export class LoginComponent implements OnInit {
   login = (): void => {
     this.auth.login(this.name.value, this.password.value)
     .subscribe(
-      (data: string) => {
-        console.log(data);
+      (data: JwtResponse) => {
+        console.log(data.jwt);
         this.router.navigate(['/user-list']);
       },
       (err: Error) => {
