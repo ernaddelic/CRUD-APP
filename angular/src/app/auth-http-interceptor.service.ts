@@ -10,10 +10,11 @@ export class AuthHttpInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     if (sessionStorage.getItem('user') && sessionStorage.getItem('auth')) {
+      let auth = sessionStorage.getItem('auth')
       req = req.clone(
         {
           setHeaders: {
-            Authorization: sessionStorage.getItem('auth')
+            'Authorization': `Bearer ${auth}`
           }
         }
       )
