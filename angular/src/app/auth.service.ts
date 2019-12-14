@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from './user';
+import { JwtResponse } from './jwt-response';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,20 +14,17 @@ export class AuthService {
 
   
 
-  login = (user: string, password: string): Observable<string> => {
-    return this.http.get(this.api_url, {
-      responseType: 'text',
-      headers: {
-        Authorization: 'Basic ' + btoa(`${user}:${password}`)
-      }
-    }).pipe(
-      map((data: string) => {
-        sessionStorage.setItem('user', user);
-        let auth = 'Basic ' + btoa(`${user}:${password}`);
-        sessionStorage.setItem('auth', auth);
-        return data;
-      })
-    )
+  login = (user: string, password: string): Observable<JwtResponse> => {
+    return this.http.post(this.api_url, {
+      name: user,
+      password: password
+    }).pipe(map((jwtResponse: JwtResponse) => {
+      sessionStorage.setItem('user', user);
+      let auth = jwtResponse.jwt;
+      sessionStorage.setItem('auth', auth);
+      return jwtResponse;
+    }))
+    
   }
 
   getUser = (): string => {
