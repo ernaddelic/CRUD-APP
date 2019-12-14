@@ -100,5 +100,7 @@ h1 {
 .navbar-brand {
       padding-left: 50px;
 }
-
+.modal {
+      top: 50px;
+}
     
