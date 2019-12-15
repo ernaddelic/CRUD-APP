@@ -56,19 +56,19 @@ public class UserController {
     } 
 
     @PostMapping("/users")
-    public List<User> save(@RequestBody User user) {
+    public User save(@RequestBody User user) {
         return service.save(user);
     }
 
     @PutMapping("/users/{id}")
-    public List<User> editUser(@RequestBody User user, @PathVariable int id) {
+    public User editUser(@RequestBody User user, @PathVariable int id) {
         User u = service.findById(id);
         u = user;
         return service.save(u);
     }
 
     @DeleteMapping("/users/{id}")
-    public List<User> deleteUser(@PathVariable int id) {
+    public String deleteUser(@PathVariable int id) {
         return service.deleteUser(id);
     }   
 }

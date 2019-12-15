@@ -5,9 +5,9 @@ import com.example.Spring.model.User;
 
 public interface UserInterface {
     public List<User> findAll();
-    public List<User> save(User user);
+    public User save(User user);
     public User findById(int id);
-    public List<User> deleteUser(int id);
+    public String deleteUser(int id);
 
 }
 

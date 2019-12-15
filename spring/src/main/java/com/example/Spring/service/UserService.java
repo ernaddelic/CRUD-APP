@@ -23,9 +23,8 @@ public class UserService implements UserInterface {
     }
 
     @Override
-    public List<User> save(User user) {
-        userRepository.save(user);
-        return userRepository.findAll();
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     @Override
@@ -34,8 +33,9 @@ public class UserService implements UserInterface {
     }
 
     @Override
-    public List<User> deleteUser(int id) {
+    public String deleteUser(int id) {
         userRepository.deleteById(id);
-        return userRepository.findAll();
+        return "Deleted";
+        
     }
 }
