@@ -11,6 +11,13 @@ import { Router } from '@angular/router';
 export class UsersComponent implements OnInit {
   users: User[];
   message: string;
+  refresh = (): void => {
+    this.service.getAll().subscribe(
+      (users: User[]) => {
+        this.updateUsers(users);
+      }
+    )
+  }
 
   updateUsers = (users: User[]): void => {
     this.users = users;
@@ -20,16 +27,12 @@ export class UsersComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.service.getAll().subscribe(
-      (users: User[]) => {
-        this.updateUsers(users);
-      }
-    )
+    this.refresh(); 
   }
 
   goToAdd = (user: User): void => {
     this.service.createUser(user).subscribe(
-      (users: User[]) => {
+      (user: User) => {
         this.router.navigate(['/add-user']);
       },
       (err) => {
@@ -46,7 +49,7 @@ export class UsersComponent implements OnInit {
     localStorage.removeItem('userID');
     localStorage.setItem('userID', user.id.toString());
     this.service.editUser(user).subscribe(
-      (user: User[]) => {
+      (user: User) => {
         this.router.navigate(['/edit-user']);
       },
       (err) => {
@@ -62,9 +65,8 @@ export class UsersComponent implements OnInit {
 
   delete = (user: User): void => {
     this.service.deleteUser(user.id)
-    .subscribe((users: User[]) => {
-      console.log(users);
-      this.users = users;
+    .subscribe((message: string) => {
+      this.refresh();
     },
     (err) => {
       this.message = 'Only admin can perform this action!';

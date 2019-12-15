@@ -36,8 +36,8 @@ export class AddUserComponent implements OnInit {
       return;
     }
     this.service.createUser(this.formGroup.value)
-    .subscribe((users: User[]) => {
-    console.log(users);
+    .subscribe((user: User) => {
+      console.log("Added user: ", user);
     this.router.navigate(['/user-list']);    
   },
   (err) => console.log(err))

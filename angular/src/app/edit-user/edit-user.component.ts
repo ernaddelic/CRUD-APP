@@ -28,8 +28,7 @@ export class EditUserComponent implements OnInit {
 
   edit = (): void => {
      this.service.editUser(this.formGroup.value)
-     .subscribe((users: User[]) => {
-       console.log(users); 
+     .subscribe((user: User) => {
        this.router.navigate(['/user-list']);
   },
   (err) => console.log(err))
@@ -42,7 +41,6 @@ export class EditUserComponent implements OnInit {
   ngOnInit(): void {
     this.service.getUserById(this.index).subscribe(
       (user: User) => {
-        console.log(user);
         this.formGroup.setValue(user);
       })
   }
