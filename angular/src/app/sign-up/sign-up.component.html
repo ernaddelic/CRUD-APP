@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div class="form-wrap">
+        
+    <form [formGroup] ="myForm">
+    
+        <h1>Sign Up</h1>
+        <input type="text" placeholder="Username" [formControl] ="myForm.controls['name']"
+        [ngClass]="{'error': !name.valid && name.touched}">
+        <input type="password" placeholder="Password" [formControl] ="myForm.controls['password']"
+        [ngClass]="{'error': !password.valid && password.touched }"
+        (blur)="displayError=true"
+        (focus)="displayError=false">
+        <small *ngIf="myForm.controls.password.errors?.minlength && displayError"
+        class="text-danger">
+          Try one with at least 8 characters</small>
+        <input type="password" placeholder="Confirm Password" 
+        [formControl] ="myForm.controls['passwordConfirm']"
+        [ngClass]="{'error': !passwordConfirm.valid && passwordConfirm.touched}"
+        (blur)="displayMatch=true"
+        (focus)="displayMatch=false">
+        <small *ngIf="myForm.errors?.notMatch && displayMatch" class="text-danger">
+          These passwords don't match
+        </small>
+        <div class="signIn">
+          <small>Already have an account?</small>
+          <span [routerLink]="['/login']" >Sign In</span>
+        </div>
+       
+        <input type="button" value="Sign Up" (click)="registerUser()">
+        <div class="alert alert-danger" *ngIf="message">
+          {{message}}
+        </div>
+    
+    </form>
+
+</div>
+</body>
+</html>
