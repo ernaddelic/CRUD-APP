@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { User } from '../user';
 import { JwtResponse } from '../jwt-response';
 
 @Component({
@@ -15,6 +14,7 @@ export class LoginComponent implements OnInit {
   formGroup: FormGroup;
   name: AbstractControl;
   password: AbstractControl;
+  created: string;
 
   constructor(public auth: AuthService,
     private router: Router,
@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
       })
       this.name = this.formGroup.controls['name'];
       this.password = this.formGroup.controls['password'];
+      this.created = sessionStorage.getItem('created');
      }
 
   ngOnInit() {
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
     .subscribe(
       (data: JwtResponse) => {
         console.log(data.jwt);
+        sessionStorage.removeItem('created');
         this.router.navigate(['/user-list']);
       },
       (err: Error) => {

@@ -4,6 +4,7 @@
 <title>LogIn Form</title>
 </head>
 <body>
+  <div *ngIf="created" class="text-center alert alert-success text-dark">{{created}}</div>
 <div class="loginbox" *ngIf="!auth.getUser()">
   <img src="assets/images/avatar.png" class="avatar">
 <h1>Login Here</h1>
