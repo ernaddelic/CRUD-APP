@@ -5,13 +5,15 @@ import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { LoggedInGuard } from './logged-in.guard';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 export const routes: Routes = [
-  {path: "", redirectTo: "login", pathMatch: "full"},
+  {path: "", redirectTo: "signup", pathMatch: "full"},
   {path: "login", component: LoginComponent},
   {path: "user-list", component: UsersComponent, canActivate: [LoggedInGuard]},
   {path: "add-user", component: AddUserComponent},
-  {path: "edit-user", component: EditUserComponent}
+  {path: "edit-user", component: EditUserComponent},
+  {path: "signup", component: SignUpComponent}
 ];
 
 @NgModule({
