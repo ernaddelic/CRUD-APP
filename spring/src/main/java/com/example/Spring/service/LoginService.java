@@ -17,4 +17,17 @@ public class LoginService implements LoginInterface {
     public Login findByName(String name) {
         return loginRepository.findByName(name);
     }
+
+    @Override
+    public Login save(Login l) {
+        return loginRepository.save(l);
+    }
+
+    @Override
+    public Login findyByPassword(String password) {
+        return loginRepository.findByPassword(password);
+    }
+
+    
+    
 }
