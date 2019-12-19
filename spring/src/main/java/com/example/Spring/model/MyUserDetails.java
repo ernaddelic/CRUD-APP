@@ -1,18 +1,20 @@
 package com.example.Spring.model;
 
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 public class MyUserDetails implements UserDetails {
 
+    private static final long serialVersionUID = 1L;
     private String name;
     private String password;
-    private String roles;
+    private Set<Role> roles;
 
     public MyUserDetails(Login login) {
         this.name = login.getName();
@@ -20,7 +22,6 @@ public class MyUserDetails implements UserDetails {
         this.roles = login.getRoles();
     }
 
-   
     @Override
     public String getPassword() {
         return password;
@@ -30,11 +31,12 @@ public class MyUserDetails implements UserDetails {
     public String getUsername() {
         return name;
     }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(roles));
+        for (Role r : roles) {
+            authorities.add(new SimpleGrantedAuthority(r.getName()));
+        }
         return authorities;
     }
 
