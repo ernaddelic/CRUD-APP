@@ -1,10 +1,17 @@
 package com.example.Spring.model;
 
+import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 
 @Entity
 @Table(name = "loguser")
@@ -16,15 +23,17 @@ public class Login {
 
     private String name;
     private String password;
-    private String roles;
+    @Transient
+    private String passwordConfirm;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "loguser_roles",
+    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<Role> roles;
 
     public Login() {}
-
-    public Login(String name, String password, String roles) {
-        this.setName(name);
-        this.setPassword(password);
-        this.setRoles(roles);
-    }
 
     public int getId() {
         return id;
@@ -36,10 +45,6 @@ public class Login {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getRoles() {
-        return roles;
     }
 
     public void setName(String name) {
@@ -54,7 +59,19 @@ public class Login {
         this.id = id;
     }
 
-    public void setRoles(String roles) {
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 }
