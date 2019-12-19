@@ -103,4 +103,65 @@ h1 {
 .modal {
       top: 50px;
 }
+.form-wrap { 
+      width: 320px;
+      height: 490px; 
+      background: #3e3d3d; 
+      padding: 40px 20px; 
+      box-sizing: border-box;
+      position: fixed; 
+      left: 50%; 
+      top: 50%; 
+      transform: translate(-50%, -50%);
+}
+.form-wrap h1 {
+      text-align: center; 
+      color: #fff; 
+      font-weight: normal; 
+      margin-bottom: 20px;
+}
+      
+.form-wrap input {
+      width: 100%; 
+      background: none; 
+      border: 1px solid #fff;
+      border-radius: 1px;
+      padding: 6px 15px; 
+      box-sizing: border-box;
+      margin-bottom: 20px; 
+      font-size: 16px; 
+      color: #fff;
+}
+
+        
+.form-wrap input[type="button"] { 
+      background: #bac675; 
+      border: 0; 
+      cursor: pointer; 
+      color: #3e3d3d;
+}
+.form-wrap input[type="button"]:hover { 
+      background: #a4b15c; 
+      transition: .6s;
+}        
+::placeholder{color: #fff;}
+
+.signIn {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      width: 205px;
+}
+.signIn span {
+      cursor: pointer;
+      color: #bac675;
+}
+.signIn small {
+      color: white;
+}
+.error {
+      border: 1px solid red !important;
+}
+
+
     
