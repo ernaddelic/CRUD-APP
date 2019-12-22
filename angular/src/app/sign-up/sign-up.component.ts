@@ -25,23 +25,10 @@ export class SignUpComponent implements OnInit {
   displayErorr: boolean;
   displayMatch: boolean;
 
-  constructor( fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private service: RegistrationService,
     private router: Router) {
-      this.myForm = fb.group({
-        'name': ['', Validators.required],
-        'password': ['', Validators.compose([
-          Validators.required, Validators.minLength(8)
-        ]
-        )],
-        'passwordConfirm': ['', Validators.compose([
-          Validators.required, Validators.minLength(8),
-          
-        ])]
-      }, {validator: matchValue})
-      this.name = this.myForm.controls['name'];
-      this.password = this.myForm.controls['password'];
-      this.passwordConfirm = this.myForm.controls['passwordConfirm'];
+     
    }
 
    registerUser = (): void => {
@@ -66,5 +53,19 @@ export class SignUpComponent implements OnInit {
      )
    }
   ngOnInit(): void { 
-  }
+    this.myForm = this.fb.group({
+      'name': ['', Validators.required],
+      'password': ['', Validators.compose([
+        Validators.required, Validators.minLength(8)
+      ]
+      )],
+      'passwordConfirm': ['', Validators.compose([
+        Validators.required, Validators.minLength(8),
+        
+      ])]
+    }, {validator: matchValue})
+    this.name = this.myForm.controls['name'];
+    this.password = this.myForm.controls['password'];
+    this.passwordConfirm = this.myForm.controls['passwordConfirm'];
+ }
 }

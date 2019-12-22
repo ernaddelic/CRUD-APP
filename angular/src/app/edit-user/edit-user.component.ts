@@ -12,10 +12,9 @@ import { User } from '../user';
 export class EditUserComponent implements OnInit {
   formGroup: FormGroup;
   index: number = parseInt(localStorage.getItem('userID'));
-  @Input() user: User;
 
   constructor(fb: FormBuilder,
-    private service: UserService,
+    public service: UserService,
     private router: Router) {
     this.formGroup = fb.group({
       'id': ['', Validators.required],

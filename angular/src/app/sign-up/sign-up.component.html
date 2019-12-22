@@ -11,16 +11,16 @@
     <form [formGroup] ="myForm">
     
         <h1>Sign Up</h1>
-        <input type="text" placeholder="Username" [formControl] ="myForm.controls['name']"
+        <input type="text" placeholder="Username" id = "name" [formControl] ="myForm.controls['name']"
         [ngClass]="{'error': !name.valid && name.touched}">
-        <input type="password" placeholder="Password" [formControl] ="myForm.controls['password']"
+        <input type="password" placeholder="Password" id = "password" [formControl] ="myForm.controls['password']"
         [ngClass]="{'error': !password.valid && password.touched }"
         (blur)="displayError=true"
         (focus)="displayError=false">
         <small *ngIf="myForm.controls.password.errors?.minlength && displayError"
         class="text-danger">
           Try one with at least 8 characters</small>
-        <input type="password" placeholder="Confirm Password" 
+        <input type="password" placeholder="Confirm Password" id="passwordConfirm"
         [formControl] ="myForm.controls['passwordConfirm']"
         [ngClass]="{'error': !passwordConfirm.valid && passwordConfirm.touched}"
         (blur)="displayMatch=true"
@@ -33,7 +33,7 @@
           <span [routerLink]="['/login']" >Sign In</span>
         </div>
        
-        <input type="button" value="Sign Up" (click)="registerUser()">
+        <input type="button" value="Sign Up" (click)="registerUser()" id="btn">
         <div class="alert alert-danger" *ngIf="message">
           {{message}}
         </div>

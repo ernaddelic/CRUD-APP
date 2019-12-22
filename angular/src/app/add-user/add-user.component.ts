@@ -14,7 +14,7 @@ export class AddUserComponent implements OnInit {
   alert: string;
 
   constructor(fb: FormBuilder,
-    private service: UserService,
+    public service: UserService,
     private router: Router) {
     this.formGroup = fb.group({
       'id': [0],
