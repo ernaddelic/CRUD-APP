@@ -74,4 +74,11 @@ public class Login {
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
     }
+
+    public Login(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
+    
 }
