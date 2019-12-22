@@ -18,7 +18,8 @@ public class User {
     private String lastName;
     private int age;
 
-    public User() {}
+    public User() {
+    }
 
     public User(int id, String firstName, String lastName, int age) {
         this.setId(id);
@@ -64,4 +65,11 @@ public class User {
     public int getAge() {
         return age;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj==this) return true;
+        if (obj==null || obj.getClass()!=this.getClass()) return false;
+        return (this.id==((User) obj).id);
+    }  
 }
