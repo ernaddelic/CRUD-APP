@@ -1,8 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { RegistrationService } from '../registration.service';
 import { Router } from '@angular/router';
-
 
 export function matchValue(control: AbstractControl): {[key:string]: boolean}  {
   if (control.get('password').value !== control.get('passwordConfirm').value) {
@@ -19,11 +18,7 @@ export function matchValue(control: AbstractControl): {[key:string]: boolean}  {
 export class SignUpComponent implements OnInit {
   myForm: FormGroup;
   message: string;
-  name: AbstractControl;
-  password: AbstractControl;
-  passwordConfirm: AbstractControl;
-  displayErorr: boolean;
-  displayMatch: boolean;
+  submitted: boolean;
 
   constructor(private fb: FormBuilder,
     private service: RegistrationService,
@@ -33,10 +28,6 @@ export class SignUpComponent implements OnInit {
 
    registerUser = (): void => {
      if (!this.myForm.valid) {
-       this.message = "Form is not valid!";
-       setTimeout(() => {
-        this.message = "";
-      },2000)
        return;
      }
      this.service.registerUser(this.myForm.value).subscribe(
@@ -54,18 +45,15 @@ export class SignUpComponent implements OnInit {
    }
   ngOnInit(): void { 
     this.myForm = this.fb.group({
-      'name': ['', Validators.required],
-      'password': ['', Validators.compose([
+      'name': new FormControl('', Validators.required),
+      'password': new FormControl('', Validators.compose([
         Validators.required, Validators.minLength(8)
       ]
-      )],
-      'passwordConfirm': ['', Validators.compose([
+      )),
+      'passwordConfirm':  new FormControl('', Validators.compose([
         Validators.required, Validators.minLength(8),
         
-      ])]
+      ]))
     }, {validator: matchValue})
-    this.name = this.myForm.controls['name'];
-    this.password = this.myForm.controls['password'];
-    this.passwordConfirm = this.myForm.controls['passwordConfirm'];
- }
+  }
 }

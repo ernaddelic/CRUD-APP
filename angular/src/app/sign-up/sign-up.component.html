@@ -6,40 +6,35 @@
   <title>Document</title>
 </head>
 <body>
-  <div class="form-wrap">
-        
-    <form [formGroup] ="myForm">
-    
+  <div class="form-wrap">  
+    <form [formGroup] ="myForm" (ngSubmit)="registerUser()">
         <h1>Sign Up</h1>
-        <input type="text" placeholder="Username" id = "name" [formControl] ="myForm.controls['name']"
-        [ngClass]="{'error': !name.valid && name.touched}">
-        <input type="password" placeholder="Password" id = "password" [formControl] ="myForm.controls['password']"
-        [ngClass]="{'error': !password.valid && password.touched }"
-        (blur)="displayError=true"
-        (focus)="displayError=false">
-        <small *ngIf="myForm.controls.password.errors?.minlength && displayError"
-        class="text-danger">
-          Try one with at least 8 characters</small>
+        <input type="text" placeholder="Username" id = "name" formControlName="name"
+        [ngClass]="{'error': !myForm.controls.name.valid && submitted}">
+        <small *ngIf="myForm.controls.name.errors?.required && submitted" class="text-danger">
+          Name is required
+        </small>
+        <input type="password" placeholder="Password" id = "password" formControlName="password"
+        [ngClass]="{'error': !myForm.controls.password.valid && submitted }">
+        <small *ngIf="!myForm.controls.password.valid && submitted">
+          <small *ngIf="myForm.controls.password.errors?.required" class="text-danger">Password is required</small>
+          <small *ngIf="myForm.controls.password.errors?.minlength" class="text-danger">Try one with at least 8 characters</small>
+        </small>
         <input type="password" placeholder="Confirm Password" id="passwordConfirm"
-        [formControl] ="myForm.controls['passwordConfirm']"
-        [ngClass]="{'error': !passwordConfirm.valid && passwordConfirm.touched}"
-        (blur)="displayMatch=true"
-        (focus)="displayMatch=false">
-        <small *ngIf="myForm.errors?.notMatch && displayMatch" class="text-danger">
+        formControlName="passwordConfirm"
+        [ngClass]="{'error': !myForm.controls.passwordConfirm.valid && submitted}">
+        <small *ngIf="myForm.errors?.notMatch && myForm.controls.password.valid && submitted" class="text-danger">
           These passwords don't match
         </small>
         <div class="signIn">
           <small>Already have an account?</small>
           <span [routerLink]="['/login']" >Sign In</span>
         </div>
-       
-        <input type="button" value="Sign Up" (click)="registerUser()" id="btn">
+        <input type="submit" value="Sign Up" id="btn" (click)="submitted=true">
         <div class="alert alert-danger" *ngIf="message">
           {{message}}
         </div>
-    
     </form>
-
 </div>
 </body>
 </html>
