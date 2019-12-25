@@ -74,7 +74,11 @@ h1 {
 
 .users, .form {
       width: 800px;
-      margin: 200px auto;
+      margin: 150px auto;
+}
+.search {
+      width: 800px;
+      margin: 10px auto;
 }
 .add {
       margin-bottom: 20px;
@@ -134,7 +138,7 @@ h1 {
 }
 
         
-.form-wrap input[type="button"] { 
+.form-wrap input[type="submit"] { 
       background: #bac675; 
       border: 0; 
       cursor: pointer; 
