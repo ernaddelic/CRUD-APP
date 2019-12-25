@@ -1,3 +1,7 @@
+<div class="search">
+  <input type="text" placeholder="Search for user..." 
+  class="form-control" [(ngModel)]="text">
+</div>
 <div class="users">
 <table class="table table-striped">
   <thead class="thead-dark">
@@ -10,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users">
+    <tr *ngFor="let user of users | search:text">
       <th scope="row">{{user.id}}</th>
       <td>{{user.firstName}}</td>
       <td>{{user.lastName}}</td>

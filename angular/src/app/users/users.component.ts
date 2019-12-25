@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class UsersComponent implements OnInit {
   users: User[];
   message: string;
+  text:string = '';
   refresh = (): void => {
     this.service.getAll().subscribe(
       (users: User[]) => {
