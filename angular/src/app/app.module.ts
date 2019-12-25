@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +10,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { LoginComponent } from './login/login.component';
 import { AuthHttpInterceptorService } from './auth-http-interceptor.service';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { SearchPipe } from './search.pipe';
 
 @NgModule({
   declarations: [
@@ -18,12 +19,14 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     AddUserComponent,
     EditUserComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule
   ],
   providers: [
