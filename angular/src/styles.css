@@ -1,77 +1,3 @@
-body {
-    font-family: sans-serif;
-}
-.loginbox {
-      width: 320px;
-      height: 420px;
-      background: #000;
-      color: #fff;
-      top: 50%;
-      left: 50%;
-      position: absolute;
-      transform: translate(-50%,-50%);
-      box-sizing: border-box;
-      padding: 70px 30px;
-}
-.avatar {
-      width: 100px;
-      height:100px;
-      position: absolute;
-      top: -50px;
-      left: calc(50% - 50px);
-}
-h1 {
-      margin: 0;
-      padding: 0 0 20px;
-      text-align: center;
-      font-size: 22px;
-}
-.loginbox p {
-      margin: 0;
-      padding: 0;
-      font-weight: bold;
-}
-.loginbox input {
-      width: 100%;
-      margin-bottom: 20px;
-}
-.loginbox input[type="text"], input[type="password"]
-    {
-      border: none;
-      border-bottom: 1px solid #fff;
-      background: transparent;
-      outline: none;
-      height: 40px;
-      color: #fff;
-      font-size: 16px;
-}
-.loginbox input[type="submit"]
-    {
-      border: none;
-      outline: none;
-      height: 40px;
-      background: #fb2525;
-      color: #fff;
-      font-size: 18px;
-      border-radius: 20px;
-}
-.loginbox input[type="submit"]:hover
-    {
-      cursor: pointer;
-      background: #ffc107;
-      color: #000;
-}
-.loginbox a {
-      text-decoration: none;
-      font-size: 12px;
-      line-height: 20px;
-      color: darkgrey;
-    
-}
-.loginbox a:hover {
-      color: #ffc107;
-}
-
 .users, .form {
       width: 800px;
       margin: 150px auto;
@@ -102,70 +28,103 @@ h1 {
       padding-left: 25px;
 }
 .navbar-brand {
-      padding-left: 50px;
+	  padding-left: 0px;
 }
 .modal {
       top: 50px;
 }
-.form-wrap { 
-      width: 320px;
-      height: 490px; 
-      background: #3e3d3d; 
-      padding: 40px 20px; 
-      box-sizing: border-box;
-      position: fixed; 
-      left: 50%; 
-      top: 50%; 
-      transform: translate(-50%, -50%);
-}
-.form-wrap h1 {
-      text-align: center; 
-      color: #fff; 
-      font-weight: normal; 
-      margin-bottom: 20px;
-}
-      
-.form-wrap input {
-      width: 100%; 
-      background: none; 
-      border: 1px solid #fff;
-      border-radius: 1px;
-      padding: 6px 15px; 
-      box-sizing: border-box;
-      margin-bottom: 20px; 
-      font-size: 16px; 
-      color: #fff;
-}
-
-        
-.form-wrap input[type="submit"] { 
-      background: #bac675; 
-      border: 0; 
-      cursor: pointer; 
-      color: #3e3d3d;
-}
-.form-wrap input[type="button"]:hover { 
-      background: #a4b15c; 
-      transition: .6s;
-}        
-::placeholder{color: #fff;}
-
-.signIn {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      width: 205px;
-}
-.signIn span {
-      cursor: pointer;
-      color: #bac675;
-}
-.signIn small {
-      color: white;
-}
 .error {
       border: 1px solid red !important;
 }
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	font-family: "Roboto";
+	outline: none;
+	border: none;
+}
 
+html, body {
+	height: 100%;
+      /*background: #0A0A0A;*/
+      background: white;
+}
 
-    
+.align {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding-bottom: 8px;
+}
+
+.logo {
+	width: 120px;
+}
+
+.card {
+	margin-top: 28px;
+	height: 100%;
+	max-height: 496px;
+	width: 396px;
+	background: #121212;
+	border: 1px solid #373737;
+	border-radius: 10px;
+	overflow: hidden;
+	transition: max-height 0.2s;
+}
+
+.extend {
+	max-height: 480px;
+}
+
+.head {
+	width: 100%;
+	display: flex;
+	height: 72px;
+	border-bottom: 1px solid #373737;
+	justify-content: space-between;
+}
+
+.head a {
+	height: 100%;
+	padding: 0 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgb(140,140,140);
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.head .selected {
+	position: relative;
+	color: #00FF5C;
+	font-weight: 700;
+}
+
+.head .selected:after {
+	position: absolute;
+	content: "";
+	bottom: 0;
+	left: 0;
+	height: 5px;
+	width: 100%;
+	background: #00FF5C;
+	border-radius: 99px 99px 0 0;
+}
+
+.tabs {
+	height: calc(100% - 72px);
+	display: flex;
+}
+.navbar {
+      background: #1C1C1C;
+} 
+small {
+	padding-top: -10px;
+	font-size: 15px;
+} 
