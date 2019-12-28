@@ -1,10 +1,9 @@
-<nav class="navbar navbar-dark bg-dark justify-content-end">
-
-    <a class="navbar-brand text-danger" href="#" [routerLink]="['/signup']">Sign up</a>
-    <a class="navbar-brand" href="#" [routerLink]="['/login']">Login</a>
-    <a class="navbar-brand" href="#" (click)="seeUsers()">Users</a>
-    <a class="navbar-brand" href="#"  
-    data-toggle="modal" data-target="#exampleModal">Logout</a>
+<nav class="navbar justify-content-end">
+    <a class="navbar-brand text-white" href="#" (click)="seeUsers()"
+    style="font-size: 25px;">Users |</a>
+    <a class="navbar-brand text-danger" href="#"  
+    data-toggle="modal" data-target="#exampleModal"
+    style="font-size: 25px;">Logout</a>
 </nav>
 <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
     <div class="modal-dialog" role="document">
