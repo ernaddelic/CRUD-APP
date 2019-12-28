@@ -9,15 +9,21 @@ export class AuthHttpInterceptorService implements HttpInterceptor {
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    if (sessionStorage.getItem('user') && sessionStorage.getItem('auth')) {
-      let auth = sessionStorage.getItem('auth')
-      req = req.clone(
-        {
-          setHeaders: {
-            'Authorization': `Bearer ${auth}`
-          }
+    let auth;
+    if (sessionStorage.getItem('auth')) {
+      auth = sessionStorage.getItem('auth')
+      req = req.clone({
+        setHeaders: {
+          'Authorization': `Bearer ${auth}`
         }
-      )
+      })
+    } else if (localStorage.getItem('auth')) {
+      auth = localStorage.getItem('auth')
+      req = req.clone({
+        setHeaders: {
+          'Authorization': `Bearer ${auth}`
+        }
+      })
     }
     return next.handle(req);
   }
