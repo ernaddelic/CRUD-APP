@@ -1,26 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>LogIn Form</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+	<title>user login</title>
 </head>
 <body>
-  <div *ngIf="created" class="text-center alert alert-success text-dark">{{created}}</div>
-<div class="loginbox" *ngIf="!auth.getUser()">
-  <img src="assets/images/avatar.png" class="avatar">
-<h1>Login Here</h1>
-<form [formGroup]="formGroup">
-  <p>User name</p>
-  <input type="text" name="name" placeholder="Enter Username" formControlName="name">
-    <p>Password</p>
-    <input type="password" name="password" placeholder="Enter Password" formControlName="password">
-    <input type="submit" name="" value="LogIn" (click)="login()">
-    <div class="alert alert-danger" role="alert" *ngIf="message && formGroup.valid">
-      {{message}}
-    </div>
-</form>
-</div>
-<div class="welcome alert alert-success" *ngIf="auth.getUser()">
-  Welcome {{auth.getUser()}}
-</div>
+	<div *ngIf="created" class="text-center alert alert-success text-dark">{{created}}</div>
+	<div class="align">
+		<img class="logo" src="assets/images/logo.svg">
+		<div class="card">
+			<div class="head">
+				<div></div>
+				<a id="login" class="selected" [routerLink]="['/login']">Login</a>
+				<a id="register" [routerLink]="['/signup']">Register</a>
+				<div></div>
+			</div>
+			<div class="tabs">
+				<form [formGroup]="formGroup" (ngSubmit)="login()">
+					<div class="inputs">
+						<div class="input">
+							<input placeholder="Username" type="text" name="name" 
+							formControlName="name">
+							<img src="assets/images/user.svg">
+						</div>
+						<div class="input">
+							<input placeholder="Password" type="password" name="password"
+							formControlName="password">
+							<img src="assets/images/pass.svg">
+						</div>
+						<label class="checkbox">
+							<input type="checkbox" [(ngModel)]="auth.rememberMe"
+							[ngModelOptions]="{standalone: true}">
+							<span>Remember me</span>
+						</label>
+					</div>
+					<small *ngIf="formGroup.valid && message" class="text-danger">
+						{{message}}
+					</small>
+					<button type="submit">Login</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
