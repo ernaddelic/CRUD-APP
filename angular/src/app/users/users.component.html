@@ -1,8 +1,11 @@
-<div class="search">
+<div class="search" *ngIf="!expired">
   <input type="text" placeholder="Search for user..." 
   class="form-control" [(ngModel)]="text">
 </div>
-<div class="users">
+<div *ngIf="expired" class="alert alert-danger search">
+  {{expired}} Please Login <a (click)="goToLogin()" href="">here.</a>
+</div>
+<div class="users" *ngIf="!expired">
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
