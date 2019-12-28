@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { JwtResponse } from '../jwt-response';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-login',
@@ -12,19 +13,17 @@ import { JwtResponse } from '../jwt-response';
 export class LoginComponent implements OnInit {
   message: string;
   formGroup: FormGroup;
-  name: AbstractControl;
-  password: AbstractControl;
   created: string;
 
   constructor(public auth: AuthService,
     private router: Router,
-    private builder: FormBuilder) {
+    private builder: FormBuilder,
+    private service: UserService,
+    private ngZone: NgZone) {
       this.formGroup = builder.group({
         'name': ['', Validators.required],
         'password': ['', Validators.required]
       })
-      this.name = this.formGroup.controls['name'];
-      this.password = this.formGroup.controls['password'];
       this.created = sessionStorage.getItem('created');
      }
 
@@ -32,19 +31,17 @@ export class LoginComponent implements OnInit {
   }
 
   login = (): void => {
-    this.auth.login(this.name.value, this.password.value)
+    this.auth.login(this.formGroup.value)
     .subscribe(
       (data: JwtResponse) => {
-        console.log(data.jwt);
         sessionStorage.removeItem('created');
-        this.router.navigate(['/user-list']);
+        this.ngZone.run(() => this.router.navigate(['/user-list']));
       },
       (err: Error) => {
-        console.log(err);
-        this.message = 'Invalid Credentials';
+        this.message = 'Invalid username and/or password';
         setTimeout(() => {
           this.message = '';
-        },1000)
+        },3000)
       })
   }   
 }

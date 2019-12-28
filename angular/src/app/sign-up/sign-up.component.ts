@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, NgZone} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { RegistrationService } from '../registration.service';
 import { Router } from '@angular/router';
@@ -22,18 +22,20 @@ export class SignUpComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private service: RegistrationService,
-    private router: Router) {
-     
-   }
+    private router: Router,
+    private ngZone: NgZone) {}
 
    registerUser = (): void => {
+     this.submitted = true;
+     setTimeout(() => {
+       this.submitted = false;
+     }, 3000);
      if (!this.myForm.valid) {
        return;
      }
      this.service.registerUser(this.myForm.value).subscribe(
        (data: string) => {
-         console.log(data);
-         this.router.navigate(['/login'])
+        this.ngZone.run(() => this.router.navigate(['/login']));  
        },
        (err) => {
          this.message = "Account already exists!";

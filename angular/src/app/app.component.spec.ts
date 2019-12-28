@@ -7,7 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { UsersComponent } from './users/users.component';
 import { Location } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { SearchPipe } from './search.pipe';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -24,13 +25,15 @@ describe('AppComponent', () => {
       imports: [
         RouterTestingModule.withRoutes(routes),
         HttpClientModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
       ],
       declarations: [
         AppComponent,
         LoginComponent,
         SignUpComponent,
-        UsersComponent
+        UsersComponent,
+        SearchPipe
       ],
     }).compileComponents();
   }));

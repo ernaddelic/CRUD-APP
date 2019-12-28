@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from './user';
-import { text } from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +49,6 @@ export class UserService {
       responseType: 'text'
     })
     .pipe(map((message: string) => {
-      console.log(message);
       return message;
     }))
   }

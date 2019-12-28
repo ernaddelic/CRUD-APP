@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { User } from '../user';
@@ -15,7 +15,8 @@ export class AddUserComponent implements OnInit {
 
   constructor(fb: FormBuilder,
     public service: UserService,
-    private router: Router) {
+    private router: Router,
+    private ngZone: NgZone) {
     this.formGroup = fb.group({
       'id': [0],
       'firstName': ['', Validators.required],
@@ -37,8 +38,7 @@ export class AddUserComponent implements OnInit {
     }
     this.service.createUser(this.formGroup.value)
     .subscribe((user: User) => {
-      console.log("Added user: ", user);
-    this.router.navigate(['/user-list']);    
+      this.ngZone.run(() => this.router.navigate(['/user-list']));   
   },
   (err) => console.log(err))
   }

@@ -73,8 +73,7 @@ describe('SignUpComponent', () => {
     const controls: string[] = [
       "name",
       "password",
-      "passwordConfirm",
-      "btn"
+      "passwordConfirm"
     ]
     const elements: Set<DebugElement> = new Set<DebugElement>();
     controls.forEach((singleControl: string) => {

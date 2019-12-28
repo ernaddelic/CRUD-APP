@@ -8,8 +8,9 @@ import { AddUserComponent } from '../add-user/add-user.component';
 import { SignUpComponent } from '../sign-up/sign-up.component';
 import { LoginComponent } from '../login/login.component';
 import { Router } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
+import { SearchPipe } from '../search.pipe';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -24,12 +25,14 @@ describe('UsersComponent', () => {
         EditUserComponent,
         AddUserComponent,
         SignUpComponent,
-        LoginComponent
+        LoginComponent,
+        SearchPipe
       ],
       imports: [
         HttpClientModule,
         RouterTestingModule.withRoutes(routes),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
       ],
     })
     .compileComponents();

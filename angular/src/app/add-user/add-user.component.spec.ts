@@ -8,6 +8,7 @@ import { UsersComponent } from '../users/users.component';
 import { Location } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { User } from '../user';
+import { SearchPipe } from '../search.pipe';
 
 describe('AddUserComponent', () => {
   let component: AddUserComponent;
@@ -20,7 +21,11 @@ describe('AddUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddUserComponent, UsersComponent ],
+      declarations: [ 
+        AddUserComponent,
+        UsersComponent,
+        SearchPipe 
+      ],
       imports: [
         BrowserModule,
         FormsModule,

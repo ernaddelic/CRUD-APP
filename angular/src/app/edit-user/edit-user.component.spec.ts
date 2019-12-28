@@ -8,6 +8,7 @@ import { UsersComponent } from '../users/users.component';
 import { Location } from '@angular/common';
 import { User } from '../user';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { SearchPipe } from '../search.pipe';
 
 describe('EditUserComponent', () => {
   let component: EditUserComponent;
@@ -20,7 +21,11 @@ describe('EditUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditUserComponent, UsersComponent ],
+      declarations: [ 
+        EditUserComponent, 
+        UsersComponent,
+        SearchPipe 
+      ],
       imports: [
         BrowserModule,
         FormsModule,
@@ -100,6 +105,4 @@ describe('EditUserComponent', () => {
     expect(req.request.method).toEqual('PUT');
     req.flush(mockUser);
   })
-
-
 });

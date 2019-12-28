@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
@@ -15,7 +15,8 @@ export class EditUserComponent implements OnInit {
 
   constructor(fb: FormBuilder,
     public service: UserService,
-    private router: Router) {
+    private router: Router,
+    private ngZone: NgZone) {
     this.formGroup = fb.group({
       'id': ['', Validators.required],
       'firstName': ['', Validators.required],
@@ -26,11 +27,10 @@ export class EditUserComponent implements OnInit {
   }
 
   edit = (): void => {
-     this.service.editUser(this.formGroup.value)
-     .subscribe((user: User) => {
-       this.router.navigate(['/user-list']);
-  },
-  (err) => console.log(err))
+    this.service.editUser(this.formGroup.value)
+    .subscribe((user: User) => {
+    this.ngZone.run(() => this.router.navigate(['/user-list']));
+  })
   }
 
   goToUsers = (): void => {

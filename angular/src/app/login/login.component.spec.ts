@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Routes, Router } from '@angular/router';
 import { UsersComponent } from '../users/users.component';
 import { Location } from '@angular/common';
+import { SearchPipe } from '../search.pipe';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -20,7 +21,11 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent, UsersComponent ],
+      declarations: [ 
+        LoginComponent,
+        UsersComponent,
+        SearchPipe 
+      ],
       imports: [
         FormsModule,
         ReactiveFormsModule,
