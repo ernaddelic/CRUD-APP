@@ -3,36 +3,43 @@ import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtResponse } from './jwt-response';
+import { Login } from './login';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private api_url: string = 'http://localhost:8080/user-portal/login';
+  public rememberMe: boolean = false;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {
+   }
 
-  login = (user: string, password: string): Observable<JwtResponse> => {
-    return this.http.post(this.api_url, {
-      name: user,
-      password: password
-    }).pipe(map((jwtResponse: JwtResponse) => {
-      sessionStorage.setItem('user', user);
+  login = (login: Login): Observable<JwtResponse> => {
+    return this.http.post(this.api_url, login)
+    .pipe(map((jwtResponse: JwtResponse) => {
       let auth = jwtResponse.jwt;
-      sessionStorage.setItem('auth', auth);
+      if (this.rememberMe) {
+        localStorage.setItem('auth', auth)
+      } else {
+        sessionStorage.setItem('auth', auth)
+        localStorage.removeItem('auth')
+      }
       return jwtResponse;
     }))
     
   }
 
   getUser = (): string => {
-    return sessionStorage.getItem('user');
+    return sessionStorage.getItem('auth');
   }
 
   logOut = (): void => {
-    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("auth");
+    localStorage.removeItem("auth");
   }
 
   isLogged = (): boolean => {
-    return sessionStorage.getItem("user") !== null;
+    return sessionStorage.getItem("auth") !== null
+    || localStorage.getItem('auth') !== null;
   }
 }

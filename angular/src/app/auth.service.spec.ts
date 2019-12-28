@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { JwtResponse } from './jwt-response';
+import { Login } from './login';
 
 describe('AuthService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -18,9 +19,11 @@ describe('AuthService', () => {
     }
     const service: AuthService = TestBed.get(AuthService);
     const controller: HttpTestingController = TestBed.get(HttpTestingController);
-    const userName: string = "John";
-    const password: string = "Smith";
-    service.login(userName, password).subscribe(
+    const fakeLogin: Login = {
+      name: "John",
+      password: "password"
+    }
+    service.login(fakeLogin).subscribe(
       (jwtResponse: JwtResponse) => {
         expect(jwtResponse).toEqual(fakeResponse);
       }
