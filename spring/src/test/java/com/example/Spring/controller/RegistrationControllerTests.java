@@ -37,7 +37,7 @@ public class RegistrationControllerTests {
     
     @Test
     public void registerUserTest() throws Exception {
-        Login login = new Login("user", "password");
+        Login login = new Login("new user", "new password");
         HttpEntity<Login> request = new HttpEntity<Login>(login);
         ResponseEntity<String> response = template.exchange(uri, HttpMethod.POST, request, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
