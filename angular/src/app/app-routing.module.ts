@@ -8,7 +8,9 @@ import { LoggedInGuard } from './logged-in.guard';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 export const routes: Routes = [
-  {path: "", redirectTo: "signup", pathMatch: "full"},
+  {path: "", 
+  redirectTo: localStorage.getItem('auth') !== null ? 'user-list' : 'login', 
+  pathMatch: "full"},
   {path: "login", component: LoginComponent},
   {path: "user-list", component: UsersComponent, canActivate: [LoggedInGuard]},
   {path: "add-user", component: AddUserComponent},
