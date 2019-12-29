@@ -1,6 +1,12 @@
 <div class="search" *ngIf="!expired">
-  <input type="text" placeholder="Search for user..." 
-  class="form-control" [(ngModel)]="text">
+  <div class="search-input">
+    <input type="text" placeholder="Search for user..." 
+    class="form-control" [(ngModel)]="text">
+  </div>
+  <div class="new-user">
+    <button class="btn btn-warning" 
+    (click)="getAccess('add')"><i class="fas fa-user-plus"></i>New user</button>
+  </div>
 </div>
 <div *ngIf="expired" class="alert alert-danger search">
   {{expired}} Please Login <a (click)="goToLogin()" href="">here.</a>
@@ -22,9 +28,8 @@
       <td>{{user.firstName}}</td>
       <td>{{user.lastName}}</td>
       <td>{{user.age}}</td>
-      <td><button type="button" class="btn btn-success" (click)="goToAdd(user)">Add</button></td>
-      <td><button type="button" class="btn btn-warning" (click)="goToEdit(user)">Edit</button></td>
-      <td><button type="button" class="btn btn-danger" (click)="delete(user)">Delete</button></td>
+      <td><button type="button" class="btn btn-warning" (click)="getAccess('edit', user)">Edit</button></td>
+      <td><button type="button" class="btn btn-danger" (click)="getAccess('delete', user)">Delete</button></td>
     </tr>
     </tbody>
     </table>
