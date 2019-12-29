@@ -2,7 +2,12 @@ package com.example.Spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.nio.file.AccessDeniedException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.example.Spring.model.User;
 import com.example.Spring.service.UserService;
 
@@ -16,6 +21,14 @@ public class UserController {
     @GetMapping("/users")
     public List<User> findAll() {
         return service.findAll();
+    }
+
+    @GetMapping("/admin")
+    public String admin(HttpServletRequest request) throws AccessDeniedException {
+        if (!request.isUserInRole("ADMIN")) {
+            throw new AccessDeniedException("Only admin can perform this action");
+        }
+        return "Succesfull";
     }
 
     @GetMapping("/users/{id}")
