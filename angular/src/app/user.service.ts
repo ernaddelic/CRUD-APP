@@ -10,6 +10,7 @@ import { User } from './user';
 export class UserService {
  
   private api_url: string = 'http://localhost:8080/user-portal/users/';
+  private admin_url: string = 'http://localhost:8080/user-portal/admin/';
 
   constructor(private http: HttpClient) { }
 
@@ -51,5 +52,10 @@ export class UserService {
     .pipe(map((message: string) => {
       return message;
     }))
+  }
+  getAccess = (): Observable<string> => {
+    return this.http.get(this.admin_url, {
+      responseType: 'text'
+    })
   }
 }

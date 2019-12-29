@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
     this.users = users;
   }
 
-  constructor(private service: UserService,
+  constructor(public service: UserService,
     private router: Router,
     private ngZone: NgZone) { }
 
@@ -36,52 +36,35 @@ export class UsersComponent implements OnInit {
     this.refresh(); 
   }
 
-  goToAdd = (user: User): void => {
-    this.service.createUser(user).subscribe(
-      (user: User) => {
-      this.ngZone.run(() => this.router.navigate(['/add-user']));
-      },
-      (err) => {
-        this.message = 'Only admin can perform this action!';
-        setTimeout(() => {
-          this.message = '';
-        },1000)
-      }
-    )
-    
-  }
-
-  goToEdit = (user: User): void => {
-    localStorage.removeItem('userID');
-    localStorage.setItem('userID', user.id.toString());
-    this.service.editUser(user).subscribe(
-      (user: User) => {
-        this.ngZone.run(() => this.router.navigate(['/edit-user']));
-      },
-      (err) => {
-        this.message = 'Only admin can perform this action!';
-        setTimeout(() => {
-          this.message = '';
-        },1000)
-      }
-    )  
-  }
-
-  delete = (user: User): void => {
-    this.service.deleteUser(user.id)
-    .subscribe((message: string) => {
-      this.refresh();
-    },
-    (err) => {
-      this.message = 'Only admin can perform this action!';
-      setTimeout(() => {
-        this.message = '';
-      },1000)
-    })
-  }
-
   goToLogin = (): void => {
     this.router.navigate(['/login']);
     localStorage.removeItem('auth');
+  }
+
+  getAccess = (event: string, user?: User): void => {
+    this.service.getAccess().subscribe(
+      (data: string) => {
+        if (event == 'add') {
+          this.ngZone.run(() => this.router.navigate(['/add-user']));
+        }
+        if (event == 'edit') {
+          localStorage.removeItem('userID');
+          localStorage.setItem('userID', user.id.toString());
+          this.ngZone.run(() => this.router.navigate(['/edit-user']));
+        } else {
+          this.service.deleteUser(user.id).subscribe(
+            (data: string ) => {
+              this.refresh();
+            }
+          )
+        }
+      },
+      (err) => {
+        this.message = 'Only admin can perform this action!'
+        setTimeout(() => {
+          this.message = ''
+        },2000)
+      }
+    )
   }
 }
