@@ -17,7 +17,7 @@ public class MyUserDetails implements UserDetails {
     private Set<Role> roles;
 
     public MyUserDetails(Login login) {
-        this.name = login.getName();
+        this.name = login.getEmail();
         this.password = login.getPassword();
         this.roles = login.getRoles();
     }

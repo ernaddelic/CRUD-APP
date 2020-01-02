@@ -24,8 +24,8 @@ public class LoginService implements LoginInterface {
     }
 
     @Override
-    public Login findyByPassword(String password) {
-        return loginRepository.findByPassword(password);
+    public Login findByEmail(String email) {
+        return loginRepository.findByEmail(email);
     }
 
     

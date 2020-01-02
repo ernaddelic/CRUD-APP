@@ -28,7 +28,7 @@ public class RegistrationController {
     @PostMapping("/register")
     public String registerUser(@RequestBody Login l) throws Exception {
         if (loginService.findByName(l.getName()) != null || 
-        loginService.findyByPassword(l.getPassword()) != null) {
+        loginService.findByEmail(l.getEmail()) != null) {
             throw new Exception("Account already Exists!");
         }
         l.setRoles(new HashSet<>());
@@ -37,5 +37,4 @@ public class RegistrationController {
         loginService.save(l);
         return "User Registered";
     }
-
 }
