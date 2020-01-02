@@ -1,46 +1,148 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
-	<title>user login</title>
-</head>
-<body>
-	<div *ngIf="created" class="text-center alert alert-success text-dark">{{created}}</div>
-	<div class="align">
-		<img class="logo" src="assets/images/logo.svg">
-		<div class="card">
-			<div class="head">
-				<div></div>
-				<a id="login" class="selected" [routerLink]="['/login']">Login</a>
-				<a id="register" [routerLink]="['/signup']">Register</a>
-				<div></div>
-			</div>
-			<div class="tabs">
-				<form [formGroup]="formGroup" (ngSubmit)="login()">
-					<div class="inputs">
-						<div class="input">
-							<input placeholder="Username" type="text" name="name" 
-							formControlName="name">
-							<img src="assets/images/user.svg">
-						</div>
-						<div class="input">
-							<input placeholder="Password" type="password" name="password"
-							formControlName="password">
-							<img src="assets/images/pass.svg">
-						</div>
-						<label class="checkbox">
-							<input type="checkbox" [(ngModel)]="auth.rememberMe"
-							[ngModelOptions]="{standalone: true}">
-							<span>Remember me</span>
-						</label>
-					</div>
-					<small *ngIf="formGroup.valid && message" class="text-danger">
-						{{message}}
-					</small>
-					<button type="submit">Login</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</body>
-</html>
+<div class="login-page">
+	<mat-card class="mat-elevation-z12">
+	  <mat-card-title style="text-align:center;">SignIn/SignUp</mat-card-title>
+	  <mat-tab-group mat-stretch-tabs class="example-stretched-tabs">
+		<mat-tab label="Sign In">
+			<mat-card-content>
+			  <form action="" [formGroup]="loginGroup" (ngSubmit)="login()">
+				<mat-form-field>
+				  <input
+					matInput
+					placeholder="Email"
+					required
+					name="email"
+					id="email"
+					formControlName = "email"
+					>
+					<mat-error *ngIf="loginGroup.controls.email.invalid">
+					<mat-error *ngIf="loginGroup.controls.email.errors?.required">
+						Email is required
+					</mat-error>
+					<mat-error *ngIf="loginGroup.controls.email.errors?.email">
+						Please enter the valid email format (e.g. example@email.com)
+					</mat-error>
+					</mat-error>
+				  <mat-icon matSuffix>email</mat-icon>
+				</mat-form-field>
+				<mat-form-field>
+				  <input
+					matInput
+					placeholder="Password"
+					formControlName="password"
+					id="password"
+					type="password"
+					name="password"
+					>
+					<mat-error *ngIf="loginGroup.controls.password.invalid">
+					  <mat-error *ngIf="loginGroup.controls.password.errors?.required">
+						  Password is required
+					  </mat-error>
+					<mat-error *ngIf="loginGroup.controls.password.errors?.minlength">
+						Try one with at least 6 characters
+					</mat-error>
+					</mat-error>	
+				  <mat-icon matSuffix>lock</mat-icon>
+				</mat-form-field>
+				<mat-checkbox [(ngModel)]="auth.rememberMe"
+				[ngModelOptions]="{standalone: true}">Remember Me!</mat-checkbox>
+				<mat-error style="text-align: center;" *ngIf="message">{{message}}</mat-error>
+				<button
+				  mat-raised-button
+				  color="primary"
+				  class="login-button"
+				  type="submit">
+				  Sign In
+				</button>
+  
+				<button
+				  mat-raised-button
+				  class="login-button">
+				  Login with Google
+				</button>
+			  </form>
+			</mat-card-content>
+		</mat-tab>
+		<mat-tab label="Sign Up">
+		  <mat-card-content>
+			<form action="" [formGroup]="registrationGroup" (ngSubmit)="registerUser()">
+			  <mat-form-field>
+				<input
+				  matInput
+				  placeholder="User Name"
+				  name="username"
+				  formControlName="name">
+				<mat-icon matSuffix>perm_identity</mat-icon>
+				<mat-error
+				  *ngIf="registrationGroup.controls.name.errors?.required">
+				  Username is required
+				</mat-error>
+  
+			  </mat-form-field>
+			  <mat-form-field>
+				<input
+				  matInput
+				  placeholder="Email"
+				  name="email"
+				  formControlName="email"
+				  >
+				<mat-error *ngIf="registrationGroup.controls.email?.invalid">
+				    <mat-error *ngIf="registrationGroup.controls.email.errors?.required">
+						Email is required
+					</mat-error>
+					<mat-error *ngIf="registrationGroup.controls.email.errors?.email">
+						Please enter the valid email format (e.g. example@email.com)
+					</mat-error>
+				</mat-error>
+				<mat-icon matSuffix>email</mat-icon>
+			  </mat-form-field>
+			  <mat-form-field>
+				<input
+				  matInput
+				  placeholder="Password"
+				  type="password"
+				  name="password"
+				  formControlName="password"
+				  >
+				  <mat-error *ngIf="registrationGroup.controls.password?.invalid">
+					<mat-error *ngIf="registrationGroup.controls.password.errors?.required">
+						Password is required
+					</mat-error>
+				  <mat-error *ngIf="registrationGroup.controls.password.errors?.minlength">
+					  Try one with at least 6 characters
+				  </mat-error>
+				  </mat-error>
+				<mat-icon matSuffix>lock</mat-icon>
+  
+			  </mat-form-field>
+			  <mat-form-field>
+				  <input
+				  matInput
+				  placeholder="Confirm Password"
+				  type="password"
+				  formControlName="passwordConfirm"
+				  name="repassword"
+				  >
+				  <mat-error *ngIf="registrationGroup.errors?.notMatch && 
+				  registrationGroup.controls.password.valid">
+					These passwords don't match
+				  </mat-error>
+				  <mat-error *ngIf="registrationGroup.controls.password?.invalid">
+					  Confirm your password
+				  </mat-error>
+				<mat-icon matSuffix>lock</mat-icon>
+			  </mat-form-field>
+			  <mat-error style="text-align: center;" *ngIf="message">{{message}}</mat-error>
+			  <button
+				mat-raised-button
+				color="primary"
+				class="login-button"
+				type="submit">
+				Sign Up
+			  </button>
+			</form>
+		  </mat-card-content>
+		</mat-tab>
+	  </mat-tab-group>
+	</mat-card>
+  </div>
+  

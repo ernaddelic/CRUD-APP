@@ -1,14 +1,13 @@
-<nav class="navbar justify-content-end">
-    <a class="navbar-brand text-white" href="#" (click)="seeUsers()"
-    style="font-size: 25px;">Users |</a>
-    <a class="navbar-brand text-danger" href="#"  
-    data-toggle="modal" data-target="#exampleModal"
-    style="font-size: 25px;">Logout</a>
-</nav>
+<button mat-button [matMenuTriggerFor]="menu">Menu</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="seeUsers()">Users</button>
+  <button mat-menu-item data-toggle="modal" 
+  data-target="#exampleModal" [disabled]="!auth.isLogged()">Logout</button>
+</mat-menu>
 <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header navbar-dark bg-dark">
+        <div class="modal-header">
           <h5 class="modal-title" style="color: white;">Log out</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true" style="color: white;">&times;</span>
@@ -18,8 +17,8 @@
           <p>Are you sure you want to log out?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="logOut()">Ok</button>
+          <button type="button" mat-button color="warn"  data-dismiss="modal">Close</button>
+          <button type="button" mat-button color="primary" data-dismiss="modal" (click)="logOut()">Ok</button>
         </div>
       </div>
     </div>

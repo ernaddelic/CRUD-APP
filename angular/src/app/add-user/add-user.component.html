@@ -1,21 +1,33 @@
-<form [formGroup]="formGroup" class="form">
-  <div class="form-group">
-    <label for="firstName">First Name: </label>
-    <input type="text" class="form-control" id="firstName" formControlName="firstName">
-  </div>
-  <div class="form-group">
-    <label for="lastName">Last Name: </label>
-    <input type="text" class="form-control" id="lastName" formControlName="lastName">
-  </div>
-  <div class="form-group">
-    <label for="age">Age: </label>
-    <input type="number" class="form-control" id="age" formControlName="age">
-  </div>
+<div class="wraper">
+<form action="" [formGroup]="formGroup">
+  <div class="example-container">
+  <mat-form-field>
+    <input type="text" matInput placeholder="First name" formControlName="firstName">
+  </mat-form-field>
+  <mat-error *ngIf="formGroup.controls.firstName.errors?.required
+  && formGroup.controls.firstName.touched">
+    First name is required
+  </mat-error>
+
+  <mat-form-field>
+    <input type="text" matInput placeholder="Last name" formControlName="lastName">
+  </mat-form-field>
+  <mat-error *ngIf="formGroup.controls.lastName.errors?.required
+  && formGroup.controls.lastName.touched">
+    Last name is required
+  </mat-error>
+
+  <mat-form-field>
+    <input type="number" matInput placeholder="Age" formControlName="age">
+  </mat-form-field>
+  <mat-error *ngIf="formGroup.controls.age.errors?.required
+  && formGroup.controls.age.touched">
+    Age is required
+  </mat-error>
   <div class="buttons">
-  <button type="submit" class="btn btn-success add" (click)="create()">Add</button>
-  <button type="submit" class="btn btn-danger add" (click)="goToUsers()">Back</button>
-</div>
-<div class="alert alert-danger" *ngIf="alert">
-    {{alert}}!
+    <button mat-button color="primary" (click)="create()">Add</button>
+    <button mat-button color="warn" (click)="goToUsers()">Back</button>
   </div>
+</div>
 </form>
+</div>
