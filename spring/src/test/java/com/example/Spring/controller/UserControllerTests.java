@@ -49,7 +49,7 @@ public class UserControllerTests {
         u = new User("John", "Smith", 23);
         template = new RestTemplate();
         headers = new HttpHeaders();
-        UserDetails userDetails = userDetailsService.loadUserByUsername("admin");
+        UserDetails userDetails = userDetailsService.loadUserByUsername("admin@gmail.com");
         String jwt = jwtUtil.generateToken(userDetails);
         headers.add("Authorization", 
         "Bearer " + jwt);

@@ -48,10 +48,10 @@ public class LoginControllerTests {
 
     @Test
     public void createAuthTokenTest() throws Exception {
-        AuthenticationRequest authRequest = new AuthenticationRequest("admin", "admin");
+        AuthenticationRequest authRequest = new AuthenticationRequest("admin@gmail.com", "adminadmin");
         HttpEntity<AuthenticationRequest> request = new HttpEntity<AuthenticationRequest>(authRequest);
         ResponseEntity<AuthenticationResponse> response = template.exchange(uri, HttpMethod.POST, request, AuthenticationResponse.class);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getName());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
         String jwt = jwtUtil.generateToken(userDetails);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(jwt, response.getBody().getJwt());
