@@ -22,6 +22,7 @@ public class Login {
     private int id;
 
     private String name;
+    private String email;
     private String password;
     @Transient
     private String passwordConfirm;
@@ -80,5 +81,11 @@ public class Login {
         this.password = password;
     }
 
-    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }   
 }
