@@ -9,6 +9,8 @@ import { Location } from '@angular/common';
 import { User } from '../user';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SearchPipe } from '../search.pipe';
+import { MaterialModule } from '../material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('EditUserComponent', () => {
   let component: EditUserComponent;
@@ -30,8 +32,10 @@ describe('EditUserComponent', () => {
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
+        MaterialModule,
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(routes),
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();

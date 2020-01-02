@@ -9,6 +9,8 @@ import { Location } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { User } from '../user';
 import { SearchPipe } from '../search.pipe';
+import { MaterialModule } from '../material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddUserComponent', () => {
   let component: AddUserComponent;
@@ -30,8 +32,10 @@ describe('AddUserComponent', () => {
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
+        MaterialModule,
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes(routes)
+        RouterTestingModule.withRoutes(routes),
+        BrowserAnimationsModule
       ],
       providers: []
     })

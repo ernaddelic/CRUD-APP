@@ -9,6 +9,8 @@ import { Routes, Router } from '@angular/router';
 import { UsersComponent } from '../users/users.component';
 import { Location } from '@angular/common';
 import { SearchPipe } from '../search.pipe';
+import { MaterialModule } from '../material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -30,7 +32,9 @@ describe('LoginComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        RouterTestingModule.withRoutes(routes)
+        MaterialModule,
+        RouterTestingModule.withRoutes(routes),
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();
@@ -55,10 +59,10 @@ describe('LoginComponent', () => {
   }))
 
   it('should test form validity', () => {
-    const form = component.formGroup;
+    const form = component.loginGroup;
     expect(form.valid).toBeFalsy();
     const formValue: Object = {
-      name: "John",
+      email: "John@gmail.com",
       password: "password"
     }
     form.setValue(formValue);
@@ -66,18 +70,18 @@ describe('LoginComponent', () => {
   })
   it('should test input validity', () => {
     const controls: string[] = [
-      "name",
+      "email",
       "password",
     ]
     const inputs: Set<AbstractControl> = new Set<AbstractControl>();
     controls.forEach((singleControl: string) => {
-      inputs.add(component.formGroup.controls[singleControl]);
+      inputs.add(component.loginGroup.controls[singleControl]);
     })
     inputs.forEach((input: AbstractControl) => {
       expect(input.valid).toBeFalsy();
     })
     inputs.forEach((input: AbstractControl) => {
-      input.setValue("valid");
+      input.setValue("example@gmail.com");
       expect(input.valid).toBeTruthy();
     })
   })

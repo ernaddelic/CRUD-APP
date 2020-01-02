@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { Router } from '@angular/router';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-add-user',

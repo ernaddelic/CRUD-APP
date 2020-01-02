@@ -19,6 +19,7 @@ describe('RegistrationService', () => {
       const controller: HttpTestingController = TestBed.get(HttpTestingController);
       let fakeUser: Registration = {
         name: "user",
+        email: "user@gmail.com",
         password: "password",
         passwordConfirm: "password"
       }

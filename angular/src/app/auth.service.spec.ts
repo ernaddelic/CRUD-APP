@@ -20,7 +20,7 @@ describe('AuthService', () => {
     const service: AuthService = TestBed.get(AuthService);
     const controller: HttpTestingController = TestBed.get(HttpTestingController);
     const fakeLogin: Login = {
-      name: "John",
+      email: "John@gmail.com",
       password: "password"
     }
     service.login(fakeLogin).subscribe(

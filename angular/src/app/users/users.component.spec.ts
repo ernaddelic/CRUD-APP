@@ -5,12 +5,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { routes } from '../app-routing.module';
 import { EditUserComponent } from '../edit-user/edit-user.component';
 import { AddUserComponent } from '../add-user/add-user.component';
-import { SignUpComponent } from '../sign-up/sign-up.component';
 import { LoginComponent } from '../login/login.component';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
 import { SearchPipe } from '../search.pipe';
+import { MaterialModule } from '../material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -24,7 +25,6 @@ describe('UsersComponent', () => {
         UsersComponent, 
         EditUserComponent,
         AddUserComponent,
-        SignUpComponent,
         LoginComponent,
         SearchPipe
       ],
@@ -32,7 +32,9 @@ describe('UsersComponent', () => {
         HttpClientModule,
         RouterTestingModule.withRoutes(routes),
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        MaterialModule,
+        BrowserAnimationsModule
       ],
     })
     .compileComponents();

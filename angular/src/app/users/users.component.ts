@@ -1,7 +1,9 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-users',
@@ -9,14 +11,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  users: User[];
   message: string;
   expired: string;
-  text:string = '';
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'age', 'action'];
+  dataSource: MatTableDataSource<User>;
+  @ViewChild(MatSort) sort: MatSort;
   refresh = (): void => {
     this.service.getAll().subscribe(
       (users: User[]) => {
-        this.updateUsers(users);
+        this.dataSource = new MatTableDataSource(users);
       },
       (err) => {
         this.expired = "Your session token has expired!"
@@ -24,16 +27,17 @@ export class UsersComponent implements OnInit {
     )
   }
 
-  updateUsers = (users: User[]): void => {
-    this.users = users;
-  }
-
   constructor(public service: UserService,
     private router: Router,
     private ngZone: NgZone) { }
 
   ngOnInit(): void {
-    this.refresh(); 
+    this.refresh();
+  }
+
+  applyFilter(filterValue: string)  {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
   }
 
   goToLogin = (): void => {
@@ -60,10 +64,7 @@ export class UsersComponent implements OnInit {
         }
       },
       (err) => {
-        this.message = 'Only admin can perform this action!'
-        setTimeout(() => {
-          this.message = ''
-        },2000)
+        alert("Only admin can perform this action!")
       }
     )
   }
