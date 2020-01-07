@@ -54,7 +54,7 @@ public class UserControllerTests {
         List<User> users = new ArrayList<User>();
         users.add(new User(1, "John", "Smith", 23));
         users.add(new User(2, "Nate", "Murray", 26));
-        Mockito.when(userService.deleteUser(1)).thenReturn(ResponseEntity.ok("Deleted"));
+        Mockito.when(userService.deleteUser(1)).thenReturn("Deleted");
         Mockito.when(userService.findAll()).thenReturn(users);
         Mockito.when(userService.save(u)).thenReturn(u);
         Mockito.when(userService.findById(1)).thenReturn(u);
