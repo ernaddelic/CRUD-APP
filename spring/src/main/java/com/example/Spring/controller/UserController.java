@@ -1,6 +1,7 @@
 package com.example.Spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
@@ -24,11 +25,11 @@ public class UserController {
     }
 
     @GetMapping("/admin")
-    public String admin(HttpServletRequest request) throws AccessDeniedException {
+    public String getAccess(HttpServletRequest request) throws AccessDeniedException {
         if (!request.isUserInRole("ADMIN")) {
             throw new AccessDeniedException("Only admin can perform this action");
         }
-        return "Succesfull";
+        return "Successful";
     }
 
     @GetMapping("/users/{id}")
@@ -49,7 +50,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable int id) {
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
         return service.deleteUser(id);
     }   
 }
