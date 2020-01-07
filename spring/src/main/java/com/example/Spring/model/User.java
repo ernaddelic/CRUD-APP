@@ -68,8 +68,17 @@ public class User {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj==this) return true;
-        if (obj==null || obj.getClass()!=this.getClass()) return false;
-        return (this.id==((User) obj).id);
-    }  
+        if (obj == this)
+            return true;
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        return (this.id == ((User) obj).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+    
+    
 }
