@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RegistrationService {
-  private api_url = 'http://localhost:8080/user-portal/register';
+  private api_url = 'http://localhost:8080/register';
 
   constructor(private http: HttpClient) { }
 

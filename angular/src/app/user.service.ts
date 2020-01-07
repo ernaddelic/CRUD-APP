@@ -9,8 +9,8 @@ import { User } from './user';
 })
 export class UserService {
  
-  private api_url: string = 'http://localhost:8080/user-portal/users/';
-  private admin_url: string = 'http://localhost:8080/user-portal/admin/';
+  private api_url: string = 'http://localhost:8080/users/';
+  private admin_url: string = 'http://localhost:8080/admin/';
 
   constructor(private http: HttpClient) { }
 

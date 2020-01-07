@@ -8,7 +8,7 @@ import { Login } from './login';
   providedIn: 'root'
 })
 export class AuthService {
-  private api_url: string = 'http://localhost:8080/user-portal/login';
+  private api_url: string = 'http://localhost:8080/login';
   public rememberMe: boolean = false;
 
   constructor(private http:HttpClient) {
