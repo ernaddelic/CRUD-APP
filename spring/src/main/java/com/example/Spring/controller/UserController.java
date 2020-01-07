@@ -1,7 +1,6 @@
 package com.example.Spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
@@ -50,7 +49,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable int id) {
+    public String deleteUser(@PathVariable int id) {
         return service.deleteUser(id);
     }   
 }
