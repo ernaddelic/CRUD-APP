@@ -76,7 +76,8 @@ public class Login {
         this.passwordConfirm = passwordConfirm;
     }
 
-    public Login(String name, String password) {
+    public Login(String email, String name, String password) {
+        this.email = email;
         this.name = name;
         this.password = password;
     }
@@ -87,5 +88,19 @@ public class Login {
 
     public void setEmail(String email) {
         this.email = email;
-    }   
+    } 
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        return (this.id == ((Login) obj).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }
