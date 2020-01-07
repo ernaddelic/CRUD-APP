@@ -1,46 +1,72 @@
 package com.example.Spring.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import com.example.Spring.model.Login;
-
+import com.example.Spring.service.LoginService;
+import com.example.Spring.service.RoleService;
+import com.example.Spring.util.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.CoreMatchers.containsString;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@WebMvcTest(RegistrationController.class)
 public class RegistrationControllerTests {
 
-    @LocalServerPort
-    int randomPort;
+    @MockBean
+    LoginService loginService;
 
-    private String url;
-    private URI uri;
-    private RestTemplate template;
+    @MockBean
+    JwtUtil jwtUtil;
+
+    @MockBean
+    UserDetailsService userDetailsService;
+
+    @MockBean
+    RoleService roleService;
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @InjectMocks
+    RegistrationController registrationController;
+
+
+    private Login loginSuccessful;
+    private Login loginFail;
 
     @BeforeEach
-    public void setUp() throws URISyntaxException {
-        url = "http://localhost:" + randomPort + "/user-portal/register/";
-        uri = new URI(url);
-        template = new RestTemplate();
+    public void setUp()  {
+        loginSuccessful = new Login("new_user@gmail.com", "new_user", "password");
+        loginFail = new Login("user@gmail.com", "user", "password");
+        Mockito.when(loginService.findByName(loginFail.getName())).thenReturn(loginFail);
     }
     
+
     @Test
-    public void registerUserTest() throws Exception {
-        Login login = new Login("new user", "new password");
-        HttpEntity<Login> request = new HttpEntity<Login>(login);
-        ResponseEntity<String> response = template.exchange(uri, HttpMethod.POST, request, String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("User Registered", response.getBody());
+    public void testRegisterUser() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mockMvc.perform(post("/register")
+        .content(mapper.writeValueAsString(loginFail))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(401));
+    
+        mockMvc.perform(post("/register")
+        .content(mapper.writeValueAsString(loginSuccessful))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User Registered")));
     }
 }

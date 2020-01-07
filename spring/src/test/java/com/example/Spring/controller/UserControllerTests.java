@@ -1,96 +1,117 @@
 package com.example.Spring.controller;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
 import java.util.List;
 import com.example.Spring.model.User;
 import com.example.Spring.service.UserService;
 import com.example.Spring.util.JwtUtil;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertThrows;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.security.test.context.support.WithMockUser;
+import static org.hamcrest.CoreMatchers.containsString;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@WebMvcTest(UserController.class)
 public class UserControllerTests {
 
-    @LocalServerPort
-    int randomPort;
-
-    @Autowired
+    @MockBean
     JwtUtil jwtUtil;
 
     @Autowired
+    private MockMvc mockMvc;
+
+    @InjectMocks
+    UserController userController;
+
+    @MockBean
     UserDetailsService userDetailsService;
 
-    @Autowired
+    @MockBean
     UserService userService;
 
-    private String url;
     private User u;
-    private RestTemplate template;
-    private HttpHeaders headers;
 
     @BeforeEach
     public  void setUp() {
-        url = "http://localhost:" + randomPort + "/user-portal/users/";
-        u = new User("John", "Smith", 23);
-        template = new RestTemplate();
-        headers = new HttpHeaders();
-        UserDetails userDetails = userDetailsService.loadUserByUsername("admin@gmail.com");
-        String jwt = jwtUtil.generateToken(userDetails);
-        headers.add("Authorization", 
-        "Bearer " + jwt);
-    }
-    
-    @Test
-    public void testPostUser() throws URISyntaxException {
-        URI uri = new URI(url);
-        HttpEntity<User> request = new HttpEntity<User>(u, headers);
-        ResponseEntity<User> response = template.postForEntity(uri, request, User.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("John", response.getBody().getFirstName());
+        u = new User(1, "John", "Smith", 23);
+        List<User> users = new ArrayList<User>();
+        users.add(new User(1, "John", "Smith", 23));
+        users.add(new User(2, "Nate", "Murray", 26));
+        Mockito.when(userService.deleteUser(1)).thenReturn(ResponseEntity.ok("Deleted"));
+        Mockito.when(userService.findAll()).thenReturn(users);
+        Mockito.when(userService.save(u)).thenReturn(u);
+        Mockito.when(userService.findById(1)).thenReturn(u);
     }
 
     @Test
-    public void testGetUserById() throws URISyntaxException {
-        URI uri = new URI(url + 2);
-        HttpEntity<User> request = new HttpEntity<User>(null, headers);
-        ResponseEntity<User> response = template.exchange(uri, HttpMethod.GET, request, User.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        User user = userService.findById(2);
-        assertEquals(user, response.getBody());
+    public void testGetAll() throws Exception {
+        this.mockMvc.perform(get("/users"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].firstName", Matchers.is("John")))
+        .andExpect(jsonPath("$[1].firstName", Matchers.is("Nate")));
     }
 
     @Test
-    public void testDeleteUser() throws URISyntaxException {
-        URI uri = new URI(url + 2);
-        HttpEntity<User> request = new HttpEntity<User>(null, headers);
-        ResponseEntity<String> response = template.exchange(uri, HttpMethod.DELETE, request, String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Deleted", response.getBody());
+    @WithMockUser(roles = "ADMIN")
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete("/users/1"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("Deleted")));    
     }
 
     @Test
-    public void testFindAll() throws URISyntaxException {
-        URI uri = new URI(url);
-        HttpEntity<User> request = new HttpEntity<User>(null, headers);
-        ResponseEntity<List<User>> response = template.exchange(uri, HttpMethod.GET, request, 
-        new ParameterizedTypeReference<List<User>>() {});
-        List<User> users = userService.findAll();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(users, response.getBody());
+    @WithMockUser(roles = "ADMIN")
+    public void testPut() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mockMvc.perform(put("/users/1").content(mapper.writeValueAsString(u))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.firstName", Matchers.is("John")))
+        .andExpect(jsonPath("$.lastName", Matchers.is("Smith")))
+        .andExpect(jsonPath("$.age", Matchers.is(23)));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void testPost() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mockMvc.perform(post("/users").content(mapper.writeValueAsString(u))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.firstName", Matchers.is("John")))
+        .andExpect(jsonPath("$.lastName", Matchers.is("Smith")))
+        .andExpect(jsonPath("$.age", Matchers.is(23)));
+    }
+
+    @Test
+    public void testFindById() throws Exception {
+        mockMvc.perform(get("/users/1"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.firstName", Matchers.is("John")))
+        .andExpect(jsonPath("$.lastName", Matchers.is("Smith")))
+        .andExpect(jsonPath("$.age", Matchers.is(23)));
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    public void testGetAccess() throws Exception {
+        assertThrows(AccessDeniedException.class, () -> mockMvc.perform(get("/admin")));   
     }
 }
