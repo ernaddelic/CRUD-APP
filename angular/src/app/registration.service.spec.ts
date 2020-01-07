@@ -1,22 +1,21 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { RegistrationService } from './registration.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Registration } from './registration';
 
 describe('RegistrationService', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule],
-    providers: [RegistrationService]
+    imports: [HttpClientTestingModule]
   }));
 
   it('should be created', () => {
     const service: RegistrationService = TestBed.get(RegistrationService);
     expect(service).toBeTruthy();
   });
-  it('should return string message', inject(
-    [RegistrationService], (service: RegistrationService) => {
-      const controller: HttpTestingController = TestBed.get(HttpTestingController);
+
+  it('should save user to database', inject(
+    [RegistrationService, HttpTestingController], 
+    (service: RegistrationService, controller: HttpTestingController) => {
       let fakeUser: Registration = {
         name: "user",
         email: "user@gmail.com",
@@ -28,7 +27,7 @@ describe('RegistrationService', () => {
         (response: string) => {
           expect(response).toEqual(fakeResonse);
         })
-        const req = controller.expectOne('http://localhost:8080/user-portal/register');
+        const req = controller.expectOne('http://localhost:8080/register');
         expect(req.request.method).toEqual('POST');
         req.flush(fakeResonse);
     }

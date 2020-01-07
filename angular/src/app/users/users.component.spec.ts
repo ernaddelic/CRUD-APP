@@ -9,7 +9,6 @@ import { LoginComponent } from '../login/login.component';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
-import { SearchPipe } from '../search.pipe';
 import { MaterialModule } from '../material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -26,7 +25,6 @@ describe('UsersComponent', () => {
         EditUserComponent,
         AddUserComponent,
         LoginComponent,
-        SearchPipe
       ],
       imports: [
         HttpClientModule,
@@ -44,21 +42,19 @@ describe('UsersComponent', () => {
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    router = TestBed.get(Router);
+    location = TestBed.get(Location);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
   it('should navigate to add-user', fakeAsync(() => {
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
     router.navigate(['add-user']);
     tick();
     expect(location.path()).toBe("/add-user");
   }))
   it('should navigate to edit-user', fakeAsync(() => {
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
     router.navigate(['edit-user']);
     tick();
     expect(location.path()).toBe("/edit-user");

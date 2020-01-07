@@ -28,7 +28,7 @@ describe('AuthService', () => {
         expect(jwtResponse).toEqual(fakeResponse);
       }
     )
-    const req = controller.expectOne('http://localhost:8080/user-portal/login');
+    const req = controller.expectOne('http://localhost:8080/login');
     expect(req.request.method).toEqual('POST');
     req.flush(fakeResponse);
   })

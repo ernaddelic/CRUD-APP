@@ -6,8 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router, Routes } from '@angular/router';
 import { UsersComponent } from '../users/users.component';
 import { Location } from '@angular/common';
-import { User } from '../user';
-import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SearchPipe } from '../search.pipe';
 import { MaterialModule } from '../material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -90,23 +89,5 @@ describe('EditUserComponent', () => {
       item.setValue("valid");
       expect(item.valid).toBeTruthy();
     })
-  })
-
-  it('should put and return user',  () => {
-    const mockUser: User = {
-      id: 1,
-      firstName: "Tim",
-      lastName: "Handry",
-      age: 30
-    }
-    let controller: HttpTestingController = TestBed.get(HttpTestingController);
-    component.service.editUser(mockUser).subscribe(
-      (data: User) => {
-        expect(data).toEqual(mockUser);
-      }
-    )
-    const req = controller.expectOne(`http://localhost:8080/user-portal/users/${mockUser.id}`);
-    expect(req.request.method).toEqual('PUT');
-    req.flush(mockUser);
   })
 });

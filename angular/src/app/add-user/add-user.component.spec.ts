@@ -89,21 +89,4 @@ describe('AddUserComponent', () => {
       expect(item.valid).toBeTruthy();
     })
   })
-  it('should post and return user',  () => {
-    const mockUser: User = {
-      id: 1,
-      firstName: "Tim",
-      lastName: "Handry",
-      age: 30
-    }
-    let controller: HttpTestingController = TestBed.get(HttpTestingController);
-    component.service.createUser(mockUser).subscribe(
-      (data: User) => {
-        expect(data).toEqual(mockUser);
-      }
-    )
-    const req = controller.expectOne('http://localhost:8080/user-portal/users/');
-    expect(req.request.method).toEqual('POST');
-    req.flush(mockUser);
-  })
 });
