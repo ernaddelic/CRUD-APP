@@ -1,14 +1,11 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-
 import { LoginComponent } from './login.component';
 import { FormsModule, ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Routes, Router } from '@angular/router';
 import { UsersComponent } from '../users/users.component';
 import { Location } from '@angular/common';
-import { SearchPipe } from '../search.pipe';
 import { MaterialModule } from '../material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -25,8 +22,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ 
         LoginComponent,
-        UsersComponent,
-        SearchPipe 
+        UsersComponent
       ],
       imports: [
         FormsModule,
