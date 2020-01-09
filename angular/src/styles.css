@@ -9,14 +9,18 @@ html, body {
       width: 800px;
       margin: 150px auto;
 }
-.search {
+.grid-container {
 	display: grid;
-	grid-template-columns: 70% 10% 20%;
-    width: 50%;
-    margin: 50px auto;
+	width: 95%;
+	grid-template-columns: 100%;
+	margin: 20px auto;
 }
-.search-input  {
-	width: 55%;
+
+.add-search {
+	display: grid;
+	grid-template-columns: 70% 20% 10%;
+	width: 100%;
+
 }
 
 .add {

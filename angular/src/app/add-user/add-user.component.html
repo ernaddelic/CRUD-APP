@@ -1,33 +1,52 @@
-<div class="wraper">
-<form action="" [formGroup]="formGroup">
-  <div class="example-container">
-  <mat-form-field>
-    <input type="text" matInput placeholder="First name" formControlName="firstName">
-  </mat-form-field>
-  <mat-error *ngIf="formGroup.controls.firstName.errors?.required
-  && formGroup.controls.firstName.touched">
-    First name is required
-  </mat-error>
-
-  <mat-form-field>
-    <input type="text" matInput placeholder="Last name" formControlName="lastName">
-  </mat-form-field>
-  <mat-error *ngIf="formGroup.controls.lastName.errors?.required
-  && formGroup.controls.lastName.touched">
-    Last name is required
-  </mat-error>
-
-  <mat-form-field>
-    <input type="number" matInput placeholder="Age" formControlName="age">
-  </mat-form-field>
-  <mat-error *ngIf="formGroup.controls.age.errors?.required
-  && formGroup.controls.age.touched">
-    Age is required
-  </mat-error>
-  <div class="buttons">
-    <button mat-button color="primary" (click)="create()">Add</button>
-    <button mat-button color="warn" (click)="goToUsers()">Back</button>
-  </div>
-</div>
+<mat-toolbar>
+  <span>New User</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="goToUsers()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="formGroup" class="normal-form" (submit)="create()">
+  <mat-grid-list cols="2" rowHeight="300px">
+    <mat-grid-tile>
+      <div class="controles-container">
+        <input type="hidden">
+        <mat-form-field>
+          <input formControlName="fullName" matInput placeholder="Full Name*">
+          <mat-error>This field is mandatory.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="email" matInput placeholder="Email">
+          <mat-error>Invalid email address.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="mobile" matInput placeholder="Mobile*">
+          <mat-error *ngIf="formGroup.controls['mobile'].errors?.required">This field is mandatory.</mat-error>
+          <mat-error *ngIf="formGroup.controls['mobile'].errors?.minlength">Minimum 8 charactors needed.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="city" matInput placeholder="City">
+        </mat-form-field>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div class="controles-container">
+        <div class="add-bottom-padding">
+          <mat-radio-group formControlName="gender">
+            <mat-radio-button value="Male">Male</mat-radio-button>
+            <mat-radio-button value="Female">Female</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <mat-form-field>
+          <input formControlName="hireDate" matInput [matDatepicker]="picker" placeholder="Hire Date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div class="add-bottom-padding">
+          <mat-checkbox formControlName="isPermanent">Permanent Employee</mat-checkbox>
+        </div>
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">Submit</button>
+          <button mat-raised-button color="warn" (click)="onClear()">Clear</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 </form>
-</div>

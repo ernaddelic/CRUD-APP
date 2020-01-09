@@ -11,7 +11,13 @@ import {
   MatCardModule,
   MatTabsModule,
   MatCheckboxModule,
-  MatIconModule
+  MatIconModule,
+  MatToolbarModule,
+  MatGridListModule,
+  MatRadioModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatPaginatorModule
   } from '@angular/material';
 
   const MaterialComponents = [
@@ -26,7 +32,13 @@ import {
     MatButtonModule,
     MatTableModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatPaginatorModule
   ]
 
 @NgModule({
