@@ -17,14 +17,21 @@ export class EditUserComponent implements OnInit {
     public service: UserService,
     private router: Router,
     private ngZone: NgZone) {
-    this.formGroup = fb.group({
-      'id': ['', Validators.required],
-      'firstName': ['', Validators.required],
-      'lastName': ['', Validators.required],
-      'age': ['', Validators.required],  
-    })
-
-  }
+      this.formGroup = fb.group({
+        'id': [null],
+        'fullName': ['', Validators.required],
+        'email': ['', Validators.compose([
+          Validators.required, Validators.email
+        ])],
+        'mobile': ['', Validators.compose([
+          Validators.required, Validators.minLength(8)
+        ])],
+        'city': [''],
+        'gender': [''],
+        'hireDate': [''],
+        'isPermanent': [false],  
+      })
+     }
 
   edit = (): void => {
     this.service.editUser(this.formGroup.value)

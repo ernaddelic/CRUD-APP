@@ -7,9 +7,9 @@ import { Router, Routes } from '@angular/router';
 import { UsersComponent } from '../users/users.component';
 import { Location } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { SearchPipe } from '../search.pipe';
 import { MaterialModule } from '../material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { User } from '../user';
 
 describe('EditUserComponent', () => {
   let component: EditUserComponent;
@@ -24,8 +24,7 @@ describe('EditUserComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ 
         EditUserComponent, 
-        UsersComponent,
-        SearchPipe 
+        UsersComponent 
       ],
       imports: [
         BrowserModule,
@@ -61,11 +60,15 @@ describe('EditUserComponent', () => {
   it('should test form validity', () => {
     const form = component.formGroup;
     expect(form.valid).toBeFalsy();
-    const formValue: Object = {
+    const formValue: User = {
       id: 1,
-      firstName: "Nate",
-      lastName: "Murray",
-      age: 23
+      fullName: "Nate",
+      email: "nate@gmail.com",
+      mobile: "23323322",
+      city: "London",
+      gender: "male",
+      hireDate: new Date(),
+      isPermanent: true
     }
     form.setValue(formValue);
     expect(form.valid).toBeTruthy();
@@ -73,20 +76,22 @@ describe('EditUserComponent', () => {
 
   it('should test input validity', () => {
     const form = component.formGroup;
-    const idInput = form.controls.id;
-    expect(idInput.valid).toBeFalsy();
     const controls: string[] = [
-      'id',
-      'firstName',
-      'lastName',
-      'age'
+      "fullName",
+      "email",
+      "mobile",
+      "city",
+      "gender",
     ];
     const inputs: Set<AbstractControl> = new Set<AbstractControl>();
+    const isPermanent: AbstractControl = component.formGroup.controls['isPermanent'];
+    isPermanent.setValue(true);
+    expect(isPermanent.valid).toBeTruthy();
     controls.forEach((singleControl: string) => {
       inputs.add(form.controls[singleControl]);
     })
     inputs.forEach((item: AbstractControl) => {
-      item.setValue("valid");
+      item.setValue("valid@hotmail.com");
       expect(item.valid).toBeTruthy();
     })
   })

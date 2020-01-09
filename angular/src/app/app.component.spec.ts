@@ -7,7 +7,6 @@ import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { Location } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { SearchPipe } from './search.pipe';
 import { MaterialModule } from './material/material.module';
 
 describe('AppComponent', () => {
@@ -31,8 +30,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         LoginComponent,
-        UsersComponent,
-        SearchPipe
+        UsersComponent
       ],
     }).compileComponents();
   }));

@@ -19,14 +19,24 @@ export class AddUserComponent implements OnInit {
     private router: Router,
     private ngZone: NgZone) {
     this.formGroup = fb.group({
-      'id': [0],
-      'firstName': ['', Validators.required],
-      'lastName': ['', Validators.required],
-      'age': ['', Validators.required],  
+      'fullName': ['', Validators.required],
+      'email': ['', Validators.compose([
+        Validators.required, Validators.email
+      ])],
+      'mobile': ['', Validators.compose([
+        Validators.required, Validators.minLength(8)
+      ])],
+      'city': [''],
+      'gender': [''],
+      'hireDate': [''],
+      'isPermanent': [false],  
     })
    }
 
   ngOnInit() {
+    this.formGroup.valueChanges.subscribe(
+      value => console.log(value)
+    )
   }
 
   create = (): void => {
@@ -46,5 +56,8 @@ export class AddUserComponent implements OnInit {
 
   goToUsers = (): void => {
     this.router.navigate(['user-list']);
+  }
+  onClear = () => {
+    this.formGroup.reset();
   }
 }

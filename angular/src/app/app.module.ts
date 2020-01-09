@@ -9,7 +9,6 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { LoginComponent } from './login/login.component';
 import { AuthHttpInterceptorService } from './auth-http-interceptor.service';
-import { SearchPipe } from './search.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 @NgModule({
@@ -18,8 +17,7 @@ import { MaterialModule } from './material/material.module';
     UsersComponent,
     AddUserComponent,
     EditUserComponent,
-    LoginComponent,
-    SearchPipe
+    LoginComponent
   ],
   imports: [
     BrowserModule,
