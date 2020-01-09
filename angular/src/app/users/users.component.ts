@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-users',
@@ -13,13 +14,16 @@ import {MatTableDataSource} from '@angular/material/table';
 export class UsersComponent implements OnInit {
   message: string;
   expired: string;
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'age', 'action'];
+  displayedColumns: string[] = ['id', 'fullName', 'email', 'phoneNumber', 'city', 'action'];
   dataSource: MatTableDataSource<User>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   refresh = (): void => {
     this.service.getAll().subscribe(
       (users: User[]) => {
         this.dataSource = new MatTableDataSource(users);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       (err) => {
         this.expired = "Your session token has expired!"
@@ -32,13 +36,17 @@ export class UsersComponent implements OnInit {
     private ngZone: NgZone) { }
 
   ngOnInit(): void {
-    this.refresh();
+    this.refresh(); 
   }
 
-  applyFilter(filterValue: string)  {
+  applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
+
 
   goToLogin = (): void => {
     this.router.navigate(['/login']);
@@ -55,12 +63,12 @@ export class UsersComponent implements OnInit {
           localStorage.removeItem('userID');
           localStorage.setItem('userID', user.id.toString());
           this.ngZone.run(() => this.router.navigate(['/edit-user']));
-        } else {
-          this.service.deleteUser(user.id).subscribe(
-            (data: string ) => {
-              this.refresh();
-            }
-          )
+        } if (event == 'delete') {
+            this.service.deleteUser(user.id).subscribe(
+              (data: string ) => {
+                this.refresh();
+              }
+            )  
         }
       },
       (err) => {
