@@ -2,6 +2,7 @@ package com.example.Spring.controller;
 
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.example.Spring.model.User;
 import com.example.Spring.service.UserService;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -50,10 +50,24 @@ public class UserControllerTests {
 
     @BeforeEach
     public  void setUp() {
-        u = new User(1, "John", "Smith", 23);
+        u = new User(1, 
+        "John Smith",
+        "john@hotmail.com",
+        "555-999",
+        "London",
+        "male",
+        new Date(2019, 8, 18),
+        true);
         List<User> users = new ArrayList<User>();
-        users.add(new User(1, "John", "Smith", 23));
-        users.add(new User(2, "Nate", "Murray", 26));
+        users.add(u);
+        users.add(new User(1, 
+        "Nate Smith",
+        "nate@hotmail.com",
+        "555-999",
+        "London",
+        "female",
+        new Date(2019, 8, 18),
+        true));
         Mockito.when(userService.deleteUser(1)).thenReturn("Deleted");
         Mockito.when(userService.findAll()).thenReturn(users);
         Mockito.when(userService.save(u)).thenReturn(u);
@@ -61,16 +75,16 @@ public class UserControllerTests {
     }
 
     @Test
-    public void testGetAll() throws Exception {
+    public void testFindAll() throws Exception {
         this.mockMvc.perform(get("/users"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].firstName", Matchers.is("John")))
-        .andExpect(jsonPath("$[1].firstName", Matchers.is("Nate")));
+        .andExpect(jsonPath("$[0].fullName", Matchers.is("John Smith")))
+        .andExpect(jsonPath("$[1].fullName", Matchers.is("Nate Smith")));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void testDelete() throws Exception {
+    public void testDeleteUser() throws Exception {
         mockMvc.perform(delete("/users/1"))
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("Deleted")));    
@@ -78,35 +92,32 @@ public class UserControllerTests {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void testPut() throws Exception {
+    public void testEditUser() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mockMvc.perform(put("/users/1").content(mapper.writeValueAsString(u))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.firstName", Matchers.is("John")))
-        .andExpect(jsonPath("$.lastName", Matchers.is("Smith")))
-        .andExpect(jsonPath("$.age", Matchers.is(23)));
+        .andExpect(jsonPath("$.fullName", Matchers.is("John Smith")))
+        .andExpect(jsonPath("$.email", Matchers.is("john@hotmail.com")));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void testPost() throws Exception {
+    public void testSaveUser() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mockMvc.perform(post("/users").content(mapper.writeValueAsString(u))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.firstName", Matchers.is("John")))
-        .andExpect(jsonPath("$.lastName", Matchers.is("Smith")))
-        .andExpect(jsonPath("$.age", Matchers.is(23)));
+        .andExpect(jsonPath("$.fullName", Matchers.is("John Smith")))
+        .andExpect(jsonPath("$.email", Matchers.is("john@hotmail.com")));
     }
 
     @Test
     public void testFindById() throws Exception {
         mockMvc.perform(get("/users/1"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.firstName", Matchers.is("John")))
-        .andExpect(jsonPath("$.lastName", Matchers.is("Smith")))
-        .andExpect(jsonPath("$.age", Matchers.is(23)));
+        .andExpect(jsonPath("$.fullName", Matchers.is("John Smith")))
+        .andExpect(jsonPath("$.email", Matchers.is("john@hotmail.com")));
     }
 
     @Test

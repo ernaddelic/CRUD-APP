@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThrows;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RegistrationController.class)
@@ -43,7 +44,6 @@ public class RegistrationControllerTests {
     @InjectMocks
     RegistrationController registrationController;
 
-
     private Login loginSuccessful;
     private Login loginFail;
 
@@ -52,6 +52,7 @@ public class RegistrationControllerTests {
         loginSuccessful = new Login("new_user@gmail.com", "new_user", "password");
         loginFail = new Login("user@gmail.com", "user", "password");
         Mockito.when(loginService.findByName(loginFail.getName())).thenReturn(loginFail);
+        Mockito.when(loginService.findByName(loginSuccessful.getName())).thenReturn(null);
     }
     
 
@@ -59,14 +60,15 @@ public class RegistrationControllerTests {
     public void testRegisterUser() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mockMvc.perform(post("/register")
-        .content(mapper.writeValueAsString(loginFail))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().is(401));
-    
-        mockMvc.perform(post("/register")
         .content(mapper.writeValueAsString(loginSuccessful))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("User Registered")));
+        .andExpect(content().string(containsString("User Registered"))); 
+
+        assertThrows(Exception.class, () -> {
+            mockMvc.perform(post("/register")
+            .content(mapper.writeValueAsString(loginFail))
+            .contentType(MediaType.APPLICATION_JSON));
+        });   
     }
 }
