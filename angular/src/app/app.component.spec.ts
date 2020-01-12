@@ -2,18 +2,16 @@ import { TestBed, async, ComponentFixture, tick, fakeAsync } from '@angular/core
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { Router, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
-import { Location } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
+import { MenuComponent } from './menu/menu.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let router: Router;
-  let location: Location;
   const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: "user-list", component: UsersComponent}
@@ -30,7 +28,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         LoginComponent,
-        UsersComponent
+        UsersComponent,
+        MenuComponent
       ],
     }).compileComponents();
   }));
@@ -40,20 +39,4 @@ describe('AppComponent', () => {
     component = fixture.debugElement.componentInstance;
     expect(component).toBeTruthy();
   });
-
-  it('should navigate to users', fakeAsync(() => {
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
-    router.navigate(['user-list']);
-    tick();
-    expect(location.path()).toEqual('/user-list');
-  }));
-
-  it('should navigate to login', fakeAsync(() => {
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
-    router.navigate(['login']);
-    tick();
-    expect(location.path()).toEqual('/login');
-  }));
 });
