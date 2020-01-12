@@ -20,21 +20,33 @@ describe('UserService', () => {
     mockUsers = [
       {
         id: 1,
-        firstName: "John",
-        lastName: "Smith",
-        age: 33
+        fullName: "John Smith",
+        email: "john@gmail.com",
+        mobile: "233-233",
+        city: "London",
+        gender: "male",
+        hireDate: new Date(),
+        isPermanent: true
       },
       {
         id: 2,
-        firstName: "Nate",
-        lastName: "Handry",
-        age: 21
+        fullName: "Nate Murray",
+        email: "nate@gmail.com",
+        mobile: "233-233",
+        city: "London",
+        gender: "female",
+        hireDate: new Date(),
+        isPermanent: false
       },
       {
         id: 3,
-        firstName: "Tim",
-        lastName: "Johnson",
-        age: 27 
+        fullName: "Tim Handry",
+        email: "tim@gmail.com",
+        mobile: "233-233",
+        city: "Paris",
+        gender: "male",
+        hireDate: new Date(),
+        isPermanent: false 
       }
     ];
     TestBed.configureTestingModule({
@@ -62,10 +74,14 @@ describe('UserService', () => {
   });
   it("should post new user and have authorization header", () => {
     requestBody = {
-      id: 4,
-      firstName: "Alan",
-      lastName: "Andersen",
-      age: 19
+        id: 2,
+        fullName: "Nate Murray",
+        email: "nate@gmail.com",
+        mobile: "233-233",
+        city: "London",
+        gender: "female",
+        hireDate: new Date(),
+        isPermanent: false
     };
     service.createUser(requestBody).subscribe(
       (user: User) => {
@@ -96,10 +112,14 @@ describe('UserService', () => {
 
   it("should update user and have authorization header", () => {
     const edit: User = {
-      id: 1,
-      firstName: "Ana",
-      lastName: "Smith",
-      age: 23
+        id: 2,
+        fullName: "Nate Murray",
+        email: "nate@gmail.com",
+        mobile: "233-233",
+        city: "London",
+        gender: "female",
+        hireDate: new Date(),
+        isPermanent: false
     }
     service.editUser(edit).subscribe(
       (user: User) => {
