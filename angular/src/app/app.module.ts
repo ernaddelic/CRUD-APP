@@ -11,13 +11,15 @@ import { LoginComponent } from './login/login.component';
 import { AuthHttpInterceptorService } from './auth-http-interceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
+import { MenuComponent } from './menu/menu.component';
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     AddUserComponent,
     EditUserComponent,
-    LoginComponent
+    LoginComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
