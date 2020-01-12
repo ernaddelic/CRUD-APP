@@ -23,7 +23,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     JwtFilter jwtFilter;
-    
+
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,16 +34,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**")
-        .hasRole("ADMIN").and().authorizeRequests()
-        .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-        .and().authorizeRequests().antMatchers(HttpMethod.PUT, "/users/**")
-        .hasRole("ADMIN").and().authorizeRequests().antMatchers(HttpMethod.GET, "/users/**")
-        .permitAll().and().authorizeRequests().antMatchers(HttpMethod.POST, "/login/**")
-        .permitAll().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().httpBasic();
-        http.csrf().disable();
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);   
+        http.csrf().disable()
+        .authorizeRequests().antMatchers(HttpMethod.POST, "/users")
+        .hasRole("ADMIN").antMatchers(HttpMethod.DELETE, "/users/**")
+        .hasRole("ADMIN").antMatchers(HttpMethod.PUT, "/users/**")
+        .hasRole("ADMIN").anyRequest().permitAll().and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); 
     }
 
     @Bean
@@ -56,6 +54,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
 }
 
